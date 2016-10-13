@@ -1,34 +1,22 @@
-<p id="notice"><%= notice %></p>
+<div class="container">
 
-<p>
-  <strong>Name:</strong>
-  <%= @product.name %>
-</p>
+  <div class="row">
 
-<p>
-  <strong>Owner:</strong>
-  <%= @product.owner %>
-</p>
+    <div class="col-md-6">
+      <%= image_tag "ps4.jpg", class: "img-responsive" %>
+    </div>
 
-<p>
-  <strong>Brand:</strong>
-  <%= @product.brand %>
-</p>
+    <div class="col-md-6">
+      <h2><%= @product.name %> by <%= @product.owner %></h2>
+      <h3><%= @product.brand %></h3>
+      <br></br>    
+      <p class="justify"><%= @product.desciption %></p>
+      <h4 class="text-right">$<%= @product.price.to_f / 100 %></h4>
+    </div>
 
-<p>
-  <strong>Desciption:</strong>
-  <%= @product.desciption %>
-</p>
+  </div>
 
-<p>
-  <strong>Price:</strong>
-  <%= @product.price %>
-</p>
-
-<p>
-  <strong>Availability:</strong>
-  <%= @product.availability %>
-</p>
+</div>
 
 <%= link_to 'Edit', edit_product_path(@product) %> |
 <%= link_to 'Back', products_path %>
