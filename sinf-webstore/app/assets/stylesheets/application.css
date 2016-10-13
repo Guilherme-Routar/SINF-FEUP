@@ -15,3 +15,78 @@
 .background_image {
     background: image-url('image0.jpg');
 }
+
+.form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+element.style {
+}
+input[type="submit"].btn-block, input[type="reset"].btn-block, input[type="button"].btn-block {
+    width: 100%;
+}
+.form-signin input {
+    margin-bottom: 10px;
+}
+button, html input[type="button"], input[type="reset"], input[type="submit"] {
+    -webkit-appearance: button;
+    cursor: pointer;
+}
+.btn {
+    text-transform: uppercase;
+    padding: 10px 20px;
+    border: transparent;
+}
+.btn {
+    text-transform: uppercase;
+    padding: 10px 20px;
+    border: transparent;
+}
+.btn-block {
+    display: block;
+    width: 100%;
+}
+.btn-primary {
+    color: white;
+    background-color: #f66a55;
+    border-color: #f5553d;
+}
+.btn {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: 500;
+    text-align: center;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    border-radius: 1px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+input, button, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+input {
+    line-height: normal;
+}
+button, input, optgroup, select, textarea {
+    color: inherit;
+    font: inherit;
+    margin: 0;
+}
+* {
+    box-sizing: border-box;
+}
