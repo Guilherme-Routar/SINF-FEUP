@@ -1,6 +1,7 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: [:show, :edit, :update, :destroy]
-
+  # Ensure the user is logged in.
+  before_action :authenticate_user!, only: [:new, :edit, :create, :update, :destroy]
   respond_to :html
 
   def index
@@ -21,22 +22,27 @@ class ProductsController < ApplicationController
   end
 
   def create
-    @product = Product.new(product_params)
-    @product.save
-    respond_with(@product)
-  end
+    @product = current_user.products.new(product_params)
 
-  def update
-    @product.update(product_params)
-    respond_with(@product)
-  end
+    respond_to do |format|
+      if @product.save
+        format.html {redirect_to @product, notice: 'Book was successfully created.'}
+      end
+    end
 
-  def destroy
-    @product.destroy
-    respond_with(@product)
-  end
+    end
 
-  private
+    def update
+      @product.update(product_params)
+      respond_with(@product)
+    end
+
+    def destroy
+      @product.destroy
+      respond_with(@product)
+    end
+
+    private
     def set_product
       @product = Product.find(params[:id])
     end
@@ -44,4 +50,4 @@ class ProductsController < ApplicationController
     def product_params
       params.require(:product).permit(:name, :owner, :brand, :desciption, :price, :availability)
     end
-end
+  end
