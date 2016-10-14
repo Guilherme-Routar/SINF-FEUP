@@ -4,4 +4,8 @@ class PagesController < ApplicationController
   		redirect_to products_path
   	end
   end
+
+  def dashboard
+  	@products = current_user.products
+  end
 end
