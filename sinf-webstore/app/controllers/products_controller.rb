@@ -19,6 +19,7 @@ class ProductsController < ApplicationController
   end
 
   def edit
+    authorize! :manage, @product
   end
 
   def create
@@ -30,24 +31,30 @@ class ProductsController < ApplicationController
       end
     end
 
-    end
+  end
 
-    def update
-      @product.update(product_params)
-      respond_with(@product)
-    end
-
-    def destroy
-      @product.destroy
-      respond_with(@product)
-    end
-
-    private
-    def set_product
-      @product = Product.find(params[:id])
-    end
-
-    def product_params
-      params.require(:product).permit(:name, :owner, :brand, :desciption, :price, :availability)
+  def update
+    authorize! :manage, @product
+    respond_to do |format|
+      if @product.update(product_params)
+        format.html { redirect_to @book, notice: 'Product was successfully updated.' }
+        format.json { render :show, status: :ok, location: @product }
+      end
     end
   end
+
+  def destroy
+    authorize! :manage, @product
+    @product.destroy
+    respond_with(@product)
+  end
+
+  private
+  def set_product
+    @product = Product.find(params[:id])
+  end
+
+  def product_params
+    params.require(:product).permit(:name, :owner, :brand, :desciption, :price, :availability)
+  end
+end
