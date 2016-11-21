@@ -1,5 +1,5 @@
 SinfWebstore::Application.routes.draw do
-  resources :products
+  resources :books
 
   devise_for :users
   root 'pages#home'

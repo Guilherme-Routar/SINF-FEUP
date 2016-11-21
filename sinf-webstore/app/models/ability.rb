@@ -7,8 +7,8 @@ class Ability
     user ||= User.new # guest user (not logged in)
     can :read, :all
 
-    can :manage, Product do |product|
-        product.try(:user) == user
+    can :manage, Book do |book|
+        book.try(:user) == user
     end
     #   if user.admin?
     #     can :manage, :all
