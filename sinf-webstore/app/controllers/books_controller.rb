@@ -5,8 +5,7 @@ class BooksController < ApplicationController
   respond_to :html
 
   def index
-    @books = Book.where(availability: true)
-    respond_with(@books)
+    @books = Book.search(params[:search])
   end
 
   def show
