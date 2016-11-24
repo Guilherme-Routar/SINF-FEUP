@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'http://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.2'
@@ -52,12 +52,18 @@ gem 'friendly_id'
 gem 'stripe'
 gem 'aasm'
 
+gem 'carrierwave', github: 'carrierwaveuploader/carrierwave'
+gem 'will_paginate', '~> 3.0.6'
+
+gem 'bootstrap-sass', '~> 3.2.0'
+gem 'autoprefixer-rails'
+
 group :production do  
 	gem 'rails_12factor'
 	gem 'pg'
 end
 
-ruby "2.0.0"
+ruby "2.2.4"
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
@@ -70,3 +76,5 @@ ruby "2.0.0"
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+
+

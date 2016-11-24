@@ -2,7 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 `
-var base_url_primavera = 'http://localhost:49526/api';
+var base_url_primavera = 'http://localhost:49822/api';
 var url_categoria = 'http://localhost:3000/categoria/';
 
 $(document).ready(function () {

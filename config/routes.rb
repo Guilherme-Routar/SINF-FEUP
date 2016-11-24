@@ -6,6 +6,13 @@ SinfWebstore::Application.routes.draw do
   get 'pesquisa' => 'search#index'
   get 'dashboard' => 'pages#dashboard'
   get 'categoria/:id' => 'categoria#index', :id => /.*/
+  get 'product/:id' => 'product#show', :id => /.*/
+
+  delete 'product_description/:id' => 'product_description#destroy'
+  put 'product_description' => 'product_description#create'
+
+  post 'reviews' => 'review#create'
+  delete 'review/:id' => 'review#destroy'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
