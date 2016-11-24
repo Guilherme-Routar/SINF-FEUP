@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SinfWebstore</title>
+	<%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+<<<<<<< HEAD
+	<%= javascript_include_tag "default", "data-turbolinks-track" => true %>
+=======
+	<%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+>>>>>>> 52be9f2e6e93b0af70775277c5823de5e5edbd3a
+	<%= csrf_meta_tags %>
+</head>
+<body>
+
+	<%= render "layouts/header" %>
+
+	<% flash.each do |type, message| %>
+
+	<div class="alert alert-info fade-in">
+		<button class="close" data-dismiss="alert">X</button>
+		<%= message %>
+	</div>
+	<% end %>
+
+	<div class="container">	
+		<%= yield %>
+	</div>
+
+</body>
+</html>
