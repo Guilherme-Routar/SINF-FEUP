@@ -13,39 +13,68 @@ namespace FirstREST.Lib_Primavera
     public class PriIntegration
     {
 
-        #region TopLivros
+        #region Categoria
 
-        public static List<Model.Artigo> ListaTopLivros()
+
+        public static Lib_Primavera.Model.Categoria GetCategoria(string codCategoria)
         {
 
             StdBELista objList;
-
-            Model.Artigo art = new Model.Artigo();
-            List<Model.Artigo> listArts = new List<Model.Artigo>();
+            //Model.Artigo myArt = new Model.Artigo();
 
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
 
-                objList = PriEngine.Engine.Consulta("SELECT TOP 20 a.Artigo, a.Descricao " + 
-                                                    "FROM Artigo as a JOIN " +
-                                                        "(SELECT Artigo, Count(*) as icount " +
-                                                          "FROM LinhasDoc JOIN CabecDoc ON LinhasDoc.IdCabecDoc = CabecDoc.Id " +
-                                                          "GROUP BY Artigo) as v " +
-                                                    "ON a.Artigo = v.Artigo JOIN ArtigoMoeda As m ON a.Artigo = m.Artigo JOIN Iva as i ON a.Iva = i.Iva " + 
-                                                    "WHERE a.Familia = 'BEBIDAS' AND a.TipoArtigo = 3 " +
-                                                    "ORDER BY icount DESC");
+                objList = PriEngine.Engine.Consulta("SELECT SubFamilia, Descricao FROM SubFamilias WHERE SubFamilia ='" + codCategoria + "' AND Familia = LIV");
+
+                if (objList.NoFim())
+                {
+                    return null;
+                }
+                else
+                {
+                    Model.Categoria cat = new Model.Categoria{
+                        CodCategoria = objList.Valor("SubFamilia"),
+                        DescCategoria = objList.Valor("Descricao")
+                    };
+
+                    return cat;
+                }
+
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+
+        
+        public static List<Model.Categoria> ListaCategorias()
+        {
+
+            StdBELista objList;
+
+            Model.Categoria cat = new Model.Categoria();
+            List<Model.Categoria> listCats = new List<Model.Categoria>();
+
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+
+                objList = PriEngine.Engine.Consulta("SELECT SubFamilia, Descricao FROM SubFamilias WHERE Familia = 'LIV'");
 
                 while (!objList.NoFim())
                 {
-                    art = new Model.Artigo();
-                    art.CodArtigo = objList.Valor("Artigo");
-                    art.DescArtigo = objList.Valor("Descricao");
+                    cat = new Model.Categoria();
+                    cat.CodCategoria = objList.Valor("SubFamilia");
+                    cat.DescCategoria = objList.Valor("Descricao");
+                    cat.numExemplaresCategoria = 1;
 
-                    listArts.Add(art);
+                    listCats.Add(cat);
                     objList.Seguinte();
                 }
 
-                return listArts;
+                return listCats;
 
             }
             else
@@ -56,9 +85,7 @@ namespace FirstREST.Lib_Primavera
 
         }
 
-        #endregion TopLivro
-
-      
+        #endregion Categoria
 
 
         #region Livro
@@ -97,9 +124,52 @@ namespace FirstREST.Lib_Primavera
 
         }
 
-        #endregion Livro
 
-        
+
+        public static List<Model.Artigo> ListaTopLivros()
+        {
+
+            StdBELista objList;
+
+            Model.Artigo art = new Model.Artigo();
+            List<Model.Artigo> listArts = new List<Model.Artigo>();
+
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+
+                objList = PriEngine.Engine.Consulta("SELECT TOP 20 a.Artigo, a.Descricao " +
+                                                    "FROM Artigo as a JOIN " +
+                                                        "(SELECT Artigo, Count(*) as icount " +
+                                                          "FROM LinhasDoc JOIN CabecDoc ON LinhasDoc.IdCabecDoc = CabecDoc.Id " +
+                                                          "GROUP BY Artigo) as v " +
+                                                    "ON a.Artigo = v.Artigo JOIN ArtigoMoeda As m ON a.Artigo = m.Artigo JOIN Iva as i ON a.Iva = i.Iva " +
+                                                    "WHERE a.Familia = 'BEBIDAS' AND a.TipoArtigo = 3 " +
+                                                    "ORDER BY icount DESC");
+
+                while (!objList.NoFim())
+                {
+                    art = new Model.Artigo();
+                    art.CodArtigo = objList.Valor("Artigo");
+                    art.DescArtigo = objList.Valor("Descricao");
+
+                    listArts.Add(art);
+                    objList.Seguinte();
+                }
+
+                return listArts;
+
+            }
+            else
+            {
+                return null;
+
+            }
+
+        }
+
+
+        #endregion Livro
+    
 
         # region Cliente
 
