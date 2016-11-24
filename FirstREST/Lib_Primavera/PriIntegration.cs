@@ -26,13 +26,20 @@ namespace FirstREST.Lib_Primavera
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
 
-                objList = PriEngine.Engine.Consulta("SELECT TOP LinhasDoc.Artigo, Artigo.Descricao as NomeArtigo FROM LinhasDoc WHERE Artigo.Artigo = LinhasDoc.Artigo");
+                objList = PriEngine.Engine.Consulta("SELECT TOP 20 a.Artigo, a.Descricao " + 
+                                                    "FROM Artigo as a JOIN " +
+                                                        "(SELECT Artigo, Count(*) as icount " +
+                                                          "FROM LinhasDoc JOIN CabecDoc ON LinhasDoc.IdCabecDoc = CabecDoc.Id " +
+                                                          "GROUP BY Artigo) as v " +
+                                                    "ON a.Artigo = v.Artigo JOIN ArtigoMoeda As m ON a.Artigo = m.Artigo JOIN Iva as i ON a.Iva = i.Iva " + 
+                                                    "WHERE a.Familia = 'BEBIDAS' AND a.TipoArtigo = 3 " +
+                                                    "ORDER BY icount DESC");
 
                 while (!objList.NoFim())
                 {
                     art = new Model.Artigo();
                     art.CodArtigo = objList.Valor("Artigo");
-                    art.DescArtigo = objList.Valor("NomeArtigo");
+                    art.DescArtigo = objList.Valor("Descricao");
 
                     listArts.Add(art);
                     objList.Seguinte();
