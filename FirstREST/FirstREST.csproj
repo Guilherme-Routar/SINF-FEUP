@@ -216,6 +216,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ListaCategoriasController.cs" />
     <Compile Include="Controllers\LivrosController.cs" />
+    <Compile Include="Controllers\LivrosRelacionadosController.cs" />
     <Compile Include="Controllers\PesquisaAutoresController.cs" />
     <Compile Include="Controllers\PesquisaLivrosController.cs" />
     <Compile Include="Controllers\TopAutoresController.cs" />

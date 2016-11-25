@@ -287,6 +287,46 @@ namespace FirstREST.Lib_Primavera
         }
 
 
+        public static List<Model.Artigo> LivrosRelacionados(String idLivro)
+        {
+
+            StdBELista objList;
+
+            Model.Artigo art = new Model.Artigo();
+            List<Model.Artigo> listArts = new List<Model.Artigo>();
+
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+
+                objList = PriEngine.Engine.Consulta(
+                    "CREATE VIEW a AS SELECT Artigo, Descricao, Marca, SubFamilia " +
+                    "FROM Artigo " +
+                    "WHERE Artigo LIKE '" + idLivro +"' " +
+                    "SELECT Artigo, Descricao FROM  a"// WHERE a.Marca = Marca OR a.SubFamilia = SubFamilia"
+                );
+
+                while (!objList.NoFim())
+                {
+                    art = new Model.Artigo();
+                    art.CodArtigo = objList.Valor("artigo");
+                    art.DescArtigo = objList.Valor("descricao");
+
+                    listArts.Add(art);
+                    objList.Seguinte();
+                }
+
+                return listArts;
+
+            }
+            else
+            {
+                return null;
+
+            }
+
+        }
+
+
 
         public static List<Model.Artigo> ListaTopLivros()
         {
