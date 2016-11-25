@@ -85,6 +85,41 @@ namespace FirstREST.Lib_Primavera
 
         }
 
+        public static List<Model.Autor> PesquisaAutor(String val)
+        {
+
+            StdBELista objList;
+
+            Model.Autor aut = new Model.Autor();
+            List<Model.Autor> listArts = new List<Model.Autor>();
+
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+
+                objList = PriEngine.Engine.Consulta("SELECT Marca, Descricao FROM Marcas WHERE Descricao LIKE '%" + val + "%'");
+                
+
+                while (!objList.NoFim())
+                {
+                    aut = new Model.Autor();
+                    aut.CodAutor = objList.Valor("Marca");
+                    aut.DescAutor = objList.Valor("Descricao");
+
+                    listArts.Add(aut);
+                    objList.Seguinte();
+                }
+
+                return listArts;
+
+            }
+            else
+            {
+                return null;
+
+            }
+
+        }
+
         #endregion Autor
 
 
@@ -220,6 +255,42 @@ namespace FirstREST.Lib_Primavera
                                                     "ON a.Artigo = v.Artigo JOIN ArtigoMoeda As m ON a.Artigo = m.Artigo JOIN Iva as i ON a.Iva = i.Iva " +
                                                     "WHERE a.Familia = 'BEBIDAS' AND a.TipoArtigo = 3 " +
                                                     "ORDER BY icount DESC");
+
+                while (!objList.NoFim())
+                {
+                    art = new Model.Artigo();
+                    art.CodArtigo = objList.Valor("Artigo");
+                    art.DescArtigo = objList.Valor("Descricao");
+
+                    listArts.Add(art);
+                    objList.Seguinte();
+                }
+
+                return listArts;
+
+            }
+            else
+            {
+                return null;
+
+            }
+
+        }
+
+
+
+        public static List<Model.Artigo> PesquisaLivros( String val )
+        {
+
+            StdBELista objList;
+
+            Model.Artigo art = new Model.Artigo();
+            List<Model.Artigo> listArts = new List<Model.Artigo>();
+
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+
+                objList = PriEngine.Engine.Consulta("SELECT Artigo, Descricao FROM Artigo WHERE Descricao LIKE '%" + val + "%'");
 
                 while (!objList.NoFim())
                 {
