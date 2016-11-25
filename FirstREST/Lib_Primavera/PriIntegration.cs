@@ -51,6 +51,58 @@ namespace FirstREST.Lib_Primavera
         }
 
 
+        public static List<Model.Autor> ListaTopAutores()
+        {
+
+            StdBELista objList;
+
+            Model.Autor aut = new Model.Autor();
+            List<Model.Autor> listArts = new List<Model.Autor>();
+
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+
+                objList = PriEngine.Engine.Consulta("SELECT TOP 20 a.Marca, a.Descricao " +
+                                                    "FROM Marcas as a JOIN" +
+                                                        "(SELECT Artigo.Marca, Artigo, Count(*) as icount " +
+                                                        "FROM LinhasDoc JOIN CabecDoc ON LinhasDoc.IdCabecDoc = CabecDoc.Id " +
+                                                         "GROUP BY Artigo.Marca) " +
+                                                         //"WHERE a.Familia = 'BEBIDAS' AND a.TipoArtigo = 3 " +
+                                                    "ORDER BY icount DESC");
+                    
+                    /*
+                                                    "FROM Marcas as a JOIN " +
+                                                        "(SELECT Artigo, Count(*) as icount " +
+                                                          "FROM LinhasDoc JOIN CabecDoc ON LinhasDoc.IdCabecDoc = CabecDoc.Id " +
+                                                          "GROUP BY Marca) as v " +
+                                                    "ON a.Marca = v.Marca JOIN ArtigoMoeda As m ON a.Marca = m.Marca JOIN Iva as i ON a.Iva = i.Iva " +
+                   //                                 "WHERE a.Familia = 'BEBIDAS' AND a.TipoArtigo = 3 " +
+                                                    "ORDER BY icount DESC");
+
+           //     "SELECT Marca, Descricao FROM Marcas"
+                    */
+                while (!objList.NoFim())
+                {
+                    aut = new Model.Autor();
+                    aut.CodAutor = objList.Valor("Marca");
+                    aut.DescAutor = objList.Valor("Descricao");
+
+                    listArts.Add(aut);
+                    objList.Seguinte();
+                }
+
+                return listArts;
+
+            }
+            else
+            {
+                return null;
+
+            }
+
+        }
+
+
         public static List<Model.Autor> ListaAutores()
         {
 
