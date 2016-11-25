@@ -30,3 +30,6 @@ C:\SINF\Code_Examples\FirstREST\bin\System.Web.WebPages.Deployment.xml
 C:\SINF\Code_Examples\FirstREST\bin\System.Web.WebPages.Razor.xml
 C:\SINF\Code_Examples\FirstREST\obj\Debug\FirstREST.dll
 C:\SINF\Code_Examples\FirstREST\obj\Debug\FirstREST.pdb
+C:\Sites\SINF-FEUP\FirstREST\obj\Debug\FirstREST.csprojResolveAssemblyReference.cache
+C:\Sites\SINF-FEUP\FirstREST\obj\Debug\FirstREST.dll
+C:\Sites\SINF-FEUP\FirstREST\obj\Debug\FirstREST.pdb

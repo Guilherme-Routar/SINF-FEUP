@@ -17,4 +17,3 @@
 //= require bootstrap-sprockets
 //= require ./utilities
 //= require_tree ./common
-

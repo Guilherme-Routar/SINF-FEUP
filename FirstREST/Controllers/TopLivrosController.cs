@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Web;
 using System.Net.Http;
 using System.Web.Http;
 using FirstREST.Lib_Primavera.Model;
+using System.Web.Script.Serialization;
 
 namespace FirstREST.Controllers
 {
@@ -32,6 +34,23 @@ namespace FirstREST.Controllers
             else
             {
                 return artigo;
+            }
+        }
+
+        [System.Web.Http.HttpGet]
+        public HttpResponseMessage Top(string number)
+        {
+            List<Lib_Primavera.Model.Artigo> artigos = Lib_Primavera.PriIntegration.ListaTopLivros();
+            if (artigos == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.Forbidden);
+            }
+            else
+            {
+                HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", IP.localhostIP());
+                var json = new JavaScriptSerializer().Serialize(artigos);
+                var response = Request.CreateResponse(HttpStatusCode.OK, json);
+                return response;
             }
         }
 
