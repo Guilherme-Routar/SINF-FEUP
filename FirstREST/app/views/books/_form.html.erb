@@ -1,0 +1,20 @@
+<%= simple_form_for(@book, html: {class: "form-signin"}) do |f| %>
+<%= f.error_notification %>
+
+
+<%= f.input :name, required: true, label: false, placeholder: "Name", input_html: {class: "form-control"} %>
+<%= f.input :desciption, required: true, label: false, placeholder: "Description", input_html: {class: "form-control"} %>
+<br>
+<%= f.input :price, required: true, label: false, placeholder: "Price", input_html: {class: "form-control"} %>
+
+<div class="checkbox text-center">
+  <%= f.input :availability, required: false, label: false %>
+</div>
+
+<%= f.input :image %>
+<%= f.input :resource %>
+
+<%= f.button :submit, class: "btn btn-primary btn-block" %>
+
+
+<% end %>

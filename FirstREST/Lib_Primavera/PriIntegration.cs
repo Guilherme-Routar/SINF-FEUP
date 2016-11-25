@@ -268,9 +268,16 @@ namespace FirstREST.Lib_Primavera
                 while (!objList.NoFim())
                 {
                     art = new Model.Artigo();
-                    art.CodArtigo = objList.Valor("artigo");
-                    art.DescArtigo = objList.Valor("descricao");
-
+                    art = new Model.Artigo();
+                    art.CodigoArtigo = objList.Valor("artigo");
+                    art.NomeArtigo = objList.Valor("descricao");
+                    art.ClassificacaoArtigo = objList.Valor("codBarras");
+                    art.AutorArtigo = objList.Valor("UnidadeVenda");
+                    art.EdicaoArtigo = objList.Valor("UnidadeBase");
+                    art.DescricaoArtigo = objList.Valor("Iva");
+                    art.PrecoNovo = objList.Valor("STKMinimo");
+                    art.PrecoUsado = objList.Valor("STKMaximo");
+                    
                     listArts.Add(art);
                     objList.Seguinte();
                 }
@@ -308,8 +315,15 @@ namespace FirstREST.Lib_Primavera
                 while (!objList.NoFim())
                 {
                     art = new Model.Artigo();
-                    art.CodArtigo = objList.Valor("artigo");
-                    art.DescArtigo = objList.Valor("descricao");
+                     art = new Model.Artigo();
+                    art.CodigoArtigo = objList.Valor("artigo");
+                    art.NomeArtigo = objList.Valor("descricao");
+                    art.ClassificacaoArtigo = objList.Valor("codBarras");
+                    art.AutorArtigo = objList.Valor("UnidadeVenda");
+                    art.EdicaoArtigo = objList.Valor("UnidadeBase");
+                    art.DescricaoArtigo = objList.Valor("Iva");
+                    art.PrecoNovo = objList.Valor("STKMinimo");
+                    art.PrecoUsado = objList.Valor("STKMaximo");
 
                     listArts.Add(art);
                     objList.Seguinte();
@@ -351,8 +365,14 @@ namespace FirstREST.Lib_Primavera
                 while (!objList.NoFim())
                 {
                     art = new Model.Artigo();
-                    art.CodArtigo = objList.Valor("Artigo");
-                    art.DescArtigo = objList.Valor("Descricao");
+                    art.CodigoArtigo = objList.Valor("artigo");
+                    art.NomeArtigo = objList.Valor("descricao");
+                    art.ClassificacaoArtigo = objList.Valor("codBarras");
+                    art.AutorArtigo = objList.Valor("UnidadeVenda");
+                    art.EdicaoArtigo = objList.Valor("UnidadeBase");
+                    art.DescricaoArtigo = objList.Valor("Iva");
+                    art.PrecoNovo = objList.Valor("STKMinimo");
+                    art.PrecoUsado = objList.Valor("STKMaximo");
 
                     listArts.Add(art);
                     objList.Seguinte();
@@ -371,39 +391,50 @@ namespace FirstREST.Lib_Primavera
 
 
 
-        public static List<Model.Artigo> PesquisaLivros( String val )
+        public static List<Model.Artigo> ProcurarLivros( String val )
         {
 
             StdBELista objList;
-
-            Model.Artigo art = new Model.Artigo();
-            List<Model.Artigo> listArts = new List<Model.Artigo>();
-
+            List<Model.Artigo> resultado = new List<Model.Artigo>();
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
 
-                objList = PriEngine.Engine.Consulta("SELECT Artigo, Descricao FROM Artigo WHERE Descricao LIKE '%" + val + "%'");
+                //objList = PriEngine.Engine.Comercial.Clientes.LstClientes();
+                string query = "SELECT a.Artigo, a.Descricao, a.Marca, a.Modelo, a.Peso, a.UnidadeBase, a.Familia, a.SubFamilia, a.Iva, i.Taxa, " +
+                        " m.PVP1, m.Moeda" +
+                        " FROM Artigo AS a JOIN ArtigoMoeda AS m ON a.Artigo = m.Artigo JOIN Iva as i ON a.Iva = i.Iva WHERE a.Artigo LIKE '%" + val + "%' OR " +
+                        " a.Descricao LIKE '%" + val + "%' AND a.TipoArtigo = 3";
+                objList = PriEngine.Engine.Consulta(query);
+
 
                 while (!objList.NoFim())
                 {
-                    art = new Model.Artigo();
-                    art.CodArtigo = objList.Valor("Artigo");
-                    art.DescArtigo = objList.Valor("Descricao");
-
-                    listArts.Add(art);
+                    resultado.Add(new Model.Artigo
+                    {
+                        CodigoArtigo = objList.Valor("Artigo"),
+                        DescricaoArtigo = objList.Valor("Descricao"),
+                        Categoria = objList.Valor("Familia"),
+                        SubCategoria = objList.Valor("SubFamilia"),
+                        PVP = objList.Valor("PVP1"),
+                        Moeda = objList.Valor("Moeda"),
+                        UnidadeBase = objList.Valor("UnidadeBase"),
+                        Marca = objList.Valor("Marca"),
+                        IVA = objList.Valor("Taxa")
+                    });
                     objList.Seguinte();
+
                 }
 
-                return listArts;
-
+                return resultado;
             }
             else
-            {
                 return null;
-
-            }
-
         }
+
+       
+
+
+
 
 
         #endregion Livro
@@ -648,8 +679,14 @@ namespace FirstREST.Lib_Primavera
                 else
                 {
                     objArtigo = PriEngine.Engine.Comercial.Artigos.Edita(codArtigo);
-                    myArt.CodArtigo = objArtigo.get_Artigo();
-                    myArt.DescArtigo = objArtigo.get_Descricao();
+                    myArt.CodigoArtigo = objArtigo.get_Artigo();
+                    myArt.NomeArtigo = objArtigo.get_Descricao();
+                    myArt.ClassificacaoArtigo = objArtigo.get_CodBarras();
+                    myArt.AutorArtigo = objArtigo.get_UnidadeVenda();
+                    myArt.EdicaoArtigo = objArtigo.get_UnidadeBase(); 
+                    myArt.DescricaoArtigo = objArtigo.get_IVA(); 
+                    myArt.PrecoNovo = objArtigo.get_IVA(); 
+                    myArt.PrecoUsado = objArtigo.get_IVA();
 
                     return myArt;
                 }
@@ -678,8 +715,15 @@ namespace FirstREST.Lib_Primavera
                 while (!objList.NoFim())
                 {
                     art = new Model.Artigo();
-                    art.CodArtigo = objList.Valor("artigo");
-                    art.DescArtigo = objList.Valor("descricao");
+                   art = new Model.Artigo();
+                    art.CodigoArtigo = objList.Valor("artigo");
+                    art.NomeArtigo = objList.Valor("descricao");
+                    art.ClassificacaoArtigo = objList.Valor("codBarras");
+                    art.AutorArtigo = objList.Valor("UnidadeVenda");
+                    art.EdicaoArtigo = objList.Valor("UnidadeBase");
+                    art.DescricaoArtigo = objList.Valor("Iva");
+                    art.PrecoNovo = objList.Valor("STKMinimo");
+                    art.PrecoUsado = objList.Valor("STKMaximo");
 
                     listArts.Add(art);
                     objList.Seguinte();

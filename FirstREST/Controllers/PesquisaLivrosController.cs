@@ -11,7 +11,7 @@ namespace FirstREST.Controllers
     {
         public IEnumerable<Lib_Primavera.Model.Artigo> Get()
         {
-            return Lib_Primavera.PriIntegration.PesquisaLivros("Harry");
+            return Lib_Primavera.PriIntegration.ProcurarLivros("Harry");
         }
     }
 }
