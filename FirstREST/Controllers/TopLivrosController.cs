@@ -7,6 +7,12 @@ using System.Net.Http;
 using System.Web.Http;
 using FirstREST.Lib_Primavera.Model;
 using System.Web.Script.Serialization;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using FirstREST.Lib_Primavera.Model;
+using FirstREST.IP;
+
 
 namespace FirstREST.Controllers
 {
@@ -47,11 +53,12 @@ namespace FirstREST.Controllers
             }
             else
             {
-                HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", IP.localhostIP());
+                HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", IP.LocalhostIP.localhostIP());
                 var json = new JavaScriptSerializer().Serialize(artigos);
                 var response = Request.CreateResponse(HttpStatusCode.OK, json);
                 return response;
             }
+
         }
 
     }
