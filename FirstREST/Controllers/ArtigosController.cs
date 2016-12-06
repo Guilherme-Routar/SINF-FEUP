@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using FirstREST.Lib_Primavera.Model;
+using FirstREST.IP;
 
 
 namespace FirstREST.Controllers
@@ -19,6 +20,8 @@ namespace FirstREST.Controllers
         public IEnumerable<Lib_Primavera.Model.Artigo> Get()
         {
             return Lib_Primavera.PriIntegration.ListaArtigos();
+
+
         }
 
 
@@ -33,6 +36,7 @@ namespace FirstREST.Controllers
             }
             else
             {
+                HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", LocalhostIP.localhostIP());
                 return artigo;
             }
         }

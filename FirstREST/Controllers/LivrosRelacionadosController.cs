@@ -9,9 +9,31 @@ namespace FirstREST.Controllers
 {
     public class LivrosRelacionadosController : ApiController
     {
-        public IEnumerable<Lib_Primavera.Model.Artigo> Get() //arg: String id
+        // GET api/livrosrelacionados
+        public IEnumerable<string> Get()
         {
-            return Lib_Primavera.PriIntegration.LivrosRelacionados("A0001"); //arg id
+            return new string[] { "value1", "value2" };
+        }
+
+        // GET api/livrosrelacionados/5
+        public string Get(int id)
+        {
+            return "value";
+        }
+
+        // POST api/livrosrelacionados
+        public void Post([FromBody]string value)
+        {
+        }
+
+        // PUT api/livrosrelacionados/5
+        public void Put(int id, [FromBody]string value)
+        {
+        }
+
+        // DELETE api/livrosrelacionados/5
+        public void Delete(int id)
+        {
         }
     }
 }

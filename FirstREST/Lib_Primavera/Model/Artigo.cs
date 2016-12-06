@@ -6,7 +6,6 @@ using System.Web;
 namespace FirstREST.Lib_Primavera.Model
 {
     public class Artigo
-
     {
         public string CodArtigo
         {
@@ -19,27 +18,8 @@ namespace FirstREST.Lib_Primavera.Model
             get;
             set;
         }
-        public string CodigoArtigo
-        {
-            get;
-            set;
-        }
-        public string NomeArtigo
-        {
-            get;
-            set;
-        }
-        public string ClassificacaoArtigo
-        {
-            get;
-            set;
-        }
-        public string AutorArtigo
-        {
-            get;
-            set;
-        }
-        public string EdicaoArtigo
+
+        public string PVP
         {
             get;
             set;
@@ -56,23 +36,8 @@ namespace FirstREST.Lib_Primavera.Model
             get;
             set;
         }
-        public string DescricaoArtigo
-        {
-            get;
-            set;
-        }
-        public string PrecoNovo
-        {
-            get;
-            set;
-        }
-        public string PrecoUsado
-        {
-            get;
-            set;
-        }
 
-        public double PVP
+        public string Marca
         {
             get;
             set;
@@ -84,23 +49,24 @@ namespace FirstREST.Lib_Primavera.Model
             set;
         }
 
-        public string UnidadeBase
+        public string Estado
         {
             get;
             set;
         }
 
-        public string Marca
+        public string SubCategoriaDesc
         {
             get;
             set;
         }
 
-        public float IVA
+        public string MarcaDesc
         {
             get;
             set;
         }
 
     }
+
 }
