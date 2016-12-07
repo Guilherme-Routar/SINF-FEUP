@@ -227,7 +227,7 @@ namespace FirstREST.Lib_Primavera
                     art = new Model.Artigo();
                     art.CodArtigo = objList.Valor("Artigo");
                     art.DescArtigo = objList.Valor("Descricao");
-                    art.PVP = objList.Valor("PVP1");
+                 
 
                     listArts.Add(art);
                     objList.Seguinte();
@@ -481,7 +481,7 @@ namespace FirstREST.Lib_Primavera
 
             if(PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
-                string query = "SELECT a.*, m.*, f.Descricao as familiaDesc, i.Taxa, i.Iva " +
+                string query = "SELECT a.Artigo, a.Descricao, a.Familia, a.SubFamilia, m.PVP1, m.PVP2, a.Marca, a.Modelo, a.Peso,a.UnidadeBase, m.Moeda, f.Descricao as familiaDesc, i.Taxa " +
                     "FROM Artigo as a, ArtigoMoeda as m, Familias as f, Iva as i " +
                     "where a.Artigo = m.Artigo AND a.Artigo='" + codArtigo + "' " +
                     "AND a.Familia = f.Familia AND i.Iva = a.Iva";
@@ -490,14 +490,18 @@ namespace FirstREST.Lib_Primavera
 
                 if (!objListLin.NoFim())
                 {
+
                     artigo.CodArtigo = objListLin.Valor("Artigo");
                     artigo.DescArtigo = objListLin.Valor("Descricao");
-                    //artigo.PVP = objListLin.Valor("PVP1")
+                    artigo.Marca = objListLin.Valor("Marca");
+                    artigo.PVP = (objListLin.Valor("PVP1")).ToString();
+                    artigo.PVP2 = (objListLin.Valor("PVP2")).ToString();
                     artigo.Estado = objListLin.Valor("Familia");
                     artigo.Categoria = objListLin.Valor("familiaDesc");
                     artigo.Moeda = objListLin.Valor("Moeda");
+                    artigo.IVA = (objListLin.Valor("Taxa")).ToString();
 
-                    if (artigo.Categoria != "")
+                    /*if (artigo.Categoria != "")
                     {
                         string queryCategoria = "SELECT * FROM SubFamilias WHERE SubFamilias= '" + artigo.Categoria + "' AND SubFamilia.Familia= '" + artigo.Estado + "'";
                         StdBELista categoria = PriEngine.Engine.Consulta(queryCategoria);
@@ -512,7 +516,7 @@ namespace FirstREST.Lib_Primavera
                         StdBELista autor = PriEngine.Engine.Consulta(queryAutor);
                         if (!autor.NoFim())
                             artigo.MarcaDesc = autor.Valor("Descricao");
-                    }
+                    }*/
 
                 }
                 else return null;
@@ -555,6 +559,7 @@ namespace FirstREST.Lib_Primavera
                 return null;
 
             }
+
         }
 
         #endregion Artigo

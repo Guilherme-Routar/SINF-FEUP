@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title> SINF </title>
-
+  <title> SINF </title>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/<%= "3.0.3" %>/css/bootstrap.min.css" rel="stylesheet">
+  <script>botao_load = '<button class="btn btn-lg btn-warning"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> A carregar...</button>';</script>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <%= stylesheet_link_tag 'application', media: 'all' %>
+  <%= stylesheet_link_tag    :all %>
   <%= stylesheet_link_tag 'external/star-rating', media: 'all' %>
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
   <%= csrf_meta_tags %>

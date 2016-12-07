@@ -2,7 +2,9 @@ SinfWebstore::Application.routes.draw do
   resources :books
 
   devise_for :users
-  root 'pages#home'
+  root 'home#index'
+
+  get 'home/index'
   get 'pesquisa' => 'search#index'
   get 'dashboard' => 'pages#dashboard'
   get 'categoria/:id' => 'categoria#index', :id => /.*/
@@ -14,7 +16,7 @@ SinfWebstore::Application.routes.draw do
   post 'reviews' => 'review#create'
   delete 'review/:id' => 'review#destroy'
 
-  get 'product' => 'home#index'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

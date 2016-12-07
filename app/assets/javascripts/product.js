@@ -47,16 +47,21 @@ function getProduto(id){
       console.log(data);
       $('#prod-title').html(data.DescArtigo);
       var price = data.PVP;
-      var preco_iva = (data.PVP*(1+data.IVA/100.0)).toFixed(2);
-      preco_iva+='€'; 
+        console.log("PVP: " + price);
+        var iva = data.IVA;
+        console.log("IVA : " + iva);
+      var preco_iva = (data.PVP*(1+data.IVA/100.0)).toFixed(2) + " ";
+
+        console.log("PRECO :" + preco_iva);
+      preco_iva+=data.Moeda;
 
       $('#prod-price').html(preco_iva);
 
-      if(data.MarcaDesc != null) {
-        $('#prod-marca').html('Marca: ' + data.MarcaDesc);
+      if(data.Marca != null) {
+        $('#prod-marca').html('Autor: ' + data.Marca);
       } else $('#prod-marca').remove();
 
-      $('#prod-categoria em').html(data.CategoriaDesc);
+      $('#prod-categoria em').html(data.Categoria);
       $('#prod-categoria').attr('href',url_categoria + data.Categoria);
 
       if(data.SubCategoriaDesc != null) {
@@ -64,6 +69,9 @@ function getProduto(id){
         $('#prod-subcategoria em').html(data.SubCategoriaDesc);
         $('#prod-subcategoria').attr('href',url_categoria + data.Categoria + '/' + data.SubCategoria);
       }
+
+      $('#prod-estado em').html(data.Estado);
+
 
       $('#botao-loading').remove();
     }

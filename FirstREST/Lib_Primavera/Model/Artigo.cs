@@ -25,6 +25,18 @@ namespace FirstREST.Lib_Primavera.Model
             set;
         }
 
+        public string PVP2
+        {
+            get;
+            set;
+        }
+
+        public string IVA
+        {
+            get;
+            set;
+        }
+
         public string Categoria
         {
             get;

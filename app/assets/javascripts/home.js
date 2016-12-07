@@ -24,7 +24,16 @@ $(document).ready(function () {
 
                 top[i] = $.parseJSON(JSON.stringify(data[i]));
 
-                var top_element = '<div class="item  col-xs-12 col-sm-4 col-lg-4"> <div class="thumbnail"> <img id="img-artigo-'  + '" class="group list-group-image" src="' + '" alt="" /> <div class="caption"> <a href="/product/' + '"><h4 class="group inner list-group-item-heading one-line-elipsis">' + top[i].DescArtigo + '</h4></a> <div class="container-fluid"> <div class="row"> <div class="col-xs-12 col-md-6"> <p class="lead">' + (top[i].PVP * (top[i].IVA / 100.0 + 1)).toFixed(2) + '€</p> </div> <div class="col-xs-12 col-md-6"> <a class="add-to-cart-btn btn btn-success" data-id-artigo="' + '"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Add</a> </div> </div> </div> </div> </div> </div>';
+                var top_element = '<div class="item  col-xs-12 col-sm-4 col-lg-4"> <div class="thumbnail"> <img id="img-artigo-'  +
+                    '" class="group list-group-image" src="' +
+                    '" alt="" /> <div class="caption"> <a href="/product/' +
+                    '"><h4 class="group inner list-group-item-heading one-line-elipsis">' +
+                    top[i].DescArtigo + '</h4></a> <div class="container-fluid"> <div class="row"> <div class="col-xs-12 col-md-6"> <p class="lead">' +
+                    (top[i].PVP * (top[i].IVA / 100.0 + 1)).toFixed(2) +
+                    '€</p> </div> <div class="col-xs-12 col-md-6"> <a class="add-to-cart-btn btn btn-success" data-id-artigo="' +
+                    '"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Add</a> </div> </div> </div> </div> </div> </div>';
+
+
                 $('#artigos-container').append(top_element);
             }
         },

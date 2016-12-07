@@ -1,5 +1,12 @@
-    <%= render 'common/header' %>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<%= render 'common/header' %>
+<%= stylesheet_link_tag 'product', media: 'all' %>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+</head>
+
+<body>
+
+<%= render 'common/navbar' %>
+
     <!-- Page Content -->
     <div class="container">
 
@@ -55,12 +62,22 @@
                             <div id="botao-loading"></div>
                             <h4 class="pull-right" id="prod-price">€</h4>
                             <h4 id="prod-title" data-id-product=<%= @product_id %>></h4>
-                            
-                            <h5 id="prod-marca">Marca:</h5>
+
+
+                            <h6 id="prod-marca">Marca:</h6>
                             <h6>
                                 Categoria: <a class="inline" href="#" id="prod-categoria"><em></em></a>
                                 <a class="inline" href="#" id="prod-subcategoria"><em></em></a>
                             </h6>
+
+                          <h6>
+                            Estado: <a class="inline" href="#" id="prod-estado"><em></em></a>
+
+                          </h6>
+
+
+
+
 
                             <div class="container-fluid">
                                 <div class="row">
@@ -83,6 +100,8 @@
                                 <% end %>
                             </div>
                         </div>
+
+
                         <div class="ratings">
                             <p class="pull-right"><%= @reviews.count %> reviews</p>
                             <p>
