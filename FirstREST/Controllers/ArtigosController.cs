@@ -6,8 +6,10 @@ using System.Web.Mvc;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Script.Serialization;
 using FirstREST.Lib_Primavera.Model;
 using FirstREST.IP;
+
 
 
 namespace FirstREST.Controllers
@@ -40,6 +42,8 @@ namespace FirstREST.Controllers
                 return artigo;
             }
         }
+
+        
 
     }
 }

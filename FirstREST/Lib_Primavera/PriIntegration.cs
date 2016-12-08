@@ -213,7 +213,7 @@ namespace FirstREST.Lib_Primavera
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
 
-                objList = PriEngine.Engine.Consulta("SELECT TOP 20 a.Artigo, a.Descricao " +
+                objList = PriEngine.Engine.Consulta("SELECT TOP 20 a.Artigo, a.Descricao, m.PVP1, m.Moeda, a.Iva, i.Taxa " +
                                                     "FROM Artigo as a JOIN " +
                                                         "(SELECT Artigo, Count(*) as icount " +
                                                           "FROM LinhasDoc JOIN CabecDoc ON LinhasDoc.IdCabecDoc = CabecDoc.Id " +
@@ -227,6 +227,9 @@ namespace FirstREST.Lib_Primavera
                     art = new Model.Artigo();
                     art.CodArtigo = objList.Valor("Artigo");
                     art.DescArtigo = objList.Valor("Descricao");
+                    art.PVP = (objList.Valor("PVP1")).ToString();
+                    art.IVA = (objList.Valor("Taxa")).ToString();
+                    art.Moeda = objList.Valor("Moeda");
                  
 
                     listArts.Add(art);
@@ -496,8 +499,8 @@ namespace FirstREST.Lib_Primavera
                     artigo.Marca = objListLin.Valor("Marca");
                     artigo.PVP = (objListLin.Valor("PVP1")).ToString();
                     artigo.PVP2 = (objListLin.Valor("PVP2")).ToString();
-                    artigo.Estado = objListLin.Valor("Familia");
-                    artigo.Categoria = objListLin.Valor("familiaDesc");
+                    artigo.Categoria = objListLin.Valor("Familia");
+                    artigo.Estado = objListLin.Valor("familiaDesc");
                     artigo.Moeda = objListLin.Valor("Moeda");
                     artigo.IVA = (objListLin.Valor("Taxa")).ToString();
 

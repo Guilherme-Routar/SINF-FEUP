@@ -46,11 +46,11 @@ function getProduto(id){
     success: function(data) {
       console.log(data);
       $('#prod-title').html(data.DescArtigo);
-      var price = data.PVP;
+      var price = parseInt(data.PVP);
         console.log("PVP: " + price);
-        var iva = data.IVA;
+        var iva = parseInt(data.IVA);
         console.log("IVA : " + iva);
-      var preco_iva = (data.PVP*(1+data.IVA/100.0)).toFixed(2) + " ";
+      var preco_iva = (price*(1+iva/100.0)).toFixed(2) + " ";
 
         console.log("PRECO :" + preco_iva);
       preco_iva+=data.Moeda;
