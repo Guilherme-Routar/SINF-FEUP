@@ -1,6 +1,7 @@
 botao_loadTopArtigos = '<button class="btn btn-lg btn-warning"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> A carregar...</button>';
 botao_loadCategorias = '<button class="btn btn-lg btn-warning"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> A carregar...</button>';
 botao_loadTopAutores = '<button class="btn btn-lg btn-warning"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> A carregar...</button>';
+
 var base_url_primavera = 'http://localhost:49822/api';
 var url_produto = 'http://localhost:3000/product/';
 

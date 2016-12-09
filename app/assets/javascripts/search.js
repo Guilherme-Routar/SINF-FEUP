@@ -47,7 +47,6 @@ $(document).ready(function () {
                     for(var  i in result){
                         var prod = getProductContainer2(result[i], null);
                         $('#artigos-container').append(prod);
-                        //getImageFromProduct(result[i].CodArtigo);
                     }
             }
         });

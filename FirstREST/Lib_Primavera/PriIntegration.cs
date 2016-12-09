@@ -640,6 +640,65 @@ namespace FirstREST.Lib_Primavera
                 return null;
         }
 
+        public static List<Lib_Primavera.Model.Artigo> GetArtigos(Lib_Primavera.Model.Carrinho car)
+        {
+            StdBELista objListLin;
+            List<Lib_Primavera.Model.Artigo> artigos = new List<Lib_Primavera.Model.Artigo>();
+
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                foreach (String codArtigo in car.Produtos_id)
+                {
+                    Lib_Primavera.Model.Artigo artigo = new Lib_Primavera.Model.Artigo();
+
+                    string query = "SELECT a.*, m.*, f.Descricao as familiaDesc, i.Taxa, i.Iva " +
+                    "FROM Artigo as a, ArtigoMoeda as m, Familias as f, Iva as i " +
+                    "where a.Artigo = m.Artigo AND a.Artigo='" + codArtigo + "' " +
+                    "AND a.Familia = f.Familia AND i.Iva = a.Iva";
+
+                    objListLin = PriEngine.Engine.Consulta(query);
+
+                    if (!objListLin.NoFim())
+                    {
+                        artigo.CodArtigo = objListLin.Valor("Artigo");
+                        artigo.DescArtigo = objListLin.Valor("Descricao");
+                        artigo.Categoria = objListLin.Valor("Familia");
+                        artigo.SubCategoria = objListLin.Valor("SubFamilia");
+
+                        
+
+                        artigo.PVP = objListLin.Valor("PVP1");
+                        artigo.Moeda = objListLin.Valor("Moeda");
+                        
+                        artigo.Marca = objListLin.Valor("Marca");
+                      
+                        
+                        artigo.IVA = objListLin.Valor("Taxa");
+
+                        if (artigo.SubCategoria != "")
+                        {
+                            string querySubFamilia = "SELECT * FROM SubFamilias WHERE SubFamilias.SubFamilia = '" + artigo.SubCategoria + "'";
+                            StdBELista subfam = PriEngine.Engine.Consulta(querySubFamilia);
+                            if (!subfam.NoFim())
+                                artigo.SubCategoriaDesc = subfam.Valor("Descricao");
+                        }
+                        if (artigo.Marca != "")
+                        {
+                            string queryMarca = "SELECT Descricao FROM Marcas WHERE Marcas.Marca = '" + artigo.Marca + "'";
+                            StdBELista marca = PriEngine.Engine.Consulta(queryMarca);
+                            if (!marca.NoFim())
+                                artigo.MarcaDesc = marca.Valor("Descricao");
+                        }
+                    }
+                    else artigo = null;
+
+                    artigos.Add(artigo);
+                }
+
+            }
+            return artigos;
+        }
+
 
         #endregion Artigo
 

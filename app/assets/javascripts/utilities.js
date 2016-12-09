@@ -5,7 +5,7 @@ this.getProductContainer = function(product, img_path) {
   return '<div class="col-md-3 col-sm-6 hero-feature product-in-grid">' + '<div class="thumbnail">' + '<img src="' + img_path + '" alt="Foto de ' + product.DescArtigo + '">' + '<div class="caption">' + '<h4>' + product.DescArtigo + '</h4>' + '<h5>' + product.PVP + '€</h5>' + '<p>' + '<a href="/product/' + product.CodArtigo + '" class="btn btn-primary">More Info</a>' + '</p>' + '</div>' + '</div>' + '</div>';
 };
 
-getProductContainer2 = function(product, img_path) {
+this.getProductContainer2 = function(product, img_path) {
   if (img_path === null) {
     img_path = 'http://placehold.it/400x250/000/fff';
   }

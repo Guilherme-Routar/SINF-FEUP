@@ -11,6 +11,10 @@ SinfWebstore::Application.routes.draw do
   get 'product/:id' => 'product#show', :id => /.*/
   get 'pesquisa' => 'search#index'
 
+  get 'carrinho' => 'cart#index'
+  post 'carrinho/adicionar' => 'cart#add_to_cart'
+  get 'carrinho/limpar' => 'cart#clear_cart'
+
   delete 'product_description/:id' => 'product_description#destroy'
   put 'product_description' => 'product_description#create'
 

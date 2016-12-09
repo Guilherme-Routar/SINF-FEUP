@@ -1,0 +1,126 @@
+<%= render 'common/header' %>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+</head>
+<body>
+<%= render 'common/navbar' %>
+<br>
+<br>
+<div class="container">
+  <h1>Carrinho de compras</h1>
+  <form id="form-carrinho" method="POST" action="/carrinho">
+    <%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
+
+    <div>
+
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#produtos" aria-controls="produtos" role="tab" data-toggle="tab">Produtos</a></li>
+        <li role="presentation"><a href="#metEnvio" aria-controls="metEnvio" role="tab" data-toggle="tab">Método de envio</a></li>
+        <li role="presentation"><a href="#metPag" aria-controls="metPag" role="tab" data-toggle="tab">Método de pagamento</a></li>
+      </ul>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="produtos">
+          <table class="table table-hover table-striped">
+            <thead>
+            <tr>
+              <th class="col-md-1">Cód.</th>
+              <th class="col-md-4">Produto</th>
+              <th class="col-md-2">Quant.</th>
+              <th class="col-md-2">Preço unit.</th>
+              <th class="col-md-2">Preço total</th>
+              <th class="col-md-1">Remover</th>
+            </tr>
+            <thead>
+            <tbody>
+            <% if !(defined? session[:carrinho]) || session[:carrinho].nil? || session[:carrinho].length == 0 %>
+                <tr>
+                  <td></td>
+                  <td><i>Carrinho vazio...</i></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+            <% else %>
+                <% session[:carrinho].each do |id, quantidade| %>
+                    <tr id="artigo-<%= id.dup.gsub /\./, '_' %>"> <!-- pontos nos ids não funcionam... -->
+                      <td class="codigo-artigo-cart"><%=id%></td>
+                      <td class="descricao"></td>
+                      <td class="quantidade"><%=quantidade%></td>
+                      <td class="pvp"></td>
+                      <td class="total"></td>
+                      <td class="remove" style="text-align: center">
+                        <a id="remove-<%= id.dup.gsub /\./, '_' %>" class="remove-from-carrinho glyphicon glyphicon-remove" style="color:red"></a>
+                      </td>
+                      <%= tag(:input, :type => "hidden", :name => 'artigo[]', :value => id) %>
+                      <%= tag(:input, :type => "hidden", :name => 'quantidade[]', :value => quantidade) %>
+                      <%= tag(:input, :type => "hidden", :name => 'preco[]') %>
+                    </tr>
+
+                <% end %>
+            <% end %>
+            <tr>
+              <th class="col-md-1"></th>
+              <th class="col-md-6"></th>
+              <th class="col-md-1"></th>
+              <th class="col-md-2">Total</th>
+              <th id="total-carrinho"></th>
+              <th></th>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="metEnvio">
+          <div class="form-group">
+            <div class="radio">
+              <%= radio_button_tag(:metodo_de_envio,:recolha_na_loja, true) %>
+              <%= label_tag(:metodo_de_envio_recolha_na_loja,'Recolha na loja') %>
+            </div>
+            <div class="radio">
+              <%= radio_button_tag(:metodo_de_envio,:ctt) %>
+              <%= label_tag(:metodo_de_envio_ctt,'CTT') %>
+            </div>
+            <div class="radio">
+              <%= radio_button_tag(:metodo_de_envio,:transportadora) %>
+              <%= label_tag(:metodo_de_envio_transportadora,'Transportadora') %>
+            </div>
+          </div>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="metPag">
+          <div class="form-group">
+            <div class="radio">
+              <%= radio_button_tag(:metodo_de_pagamento,:multibanco, true) %>
+              <%= label_tag(:metodo_de_pagamento_multibanco,'Multibanco') %>
+            </div>
+            <div class="radio">
+              <%= radio_button_tag(:metodo_de_pagamento,:cartao_credito, true) %>
+              <%= label_tag(:metodo_de_pagamento_cartao_credito,'Cartão') %>
+            </div>
+            <div class="radio">
+              <%= radio_button_tag(:metodo_de_pagamento,:cobranca) %>
+              <%= label_tag(:metodo_de_pagamento_cobranca,'À cobrança') %>
+            </div>
+            <div class="radio">
+              <%= radio_button_tag(:metodo_de_pagamento,:paypal) %>
+              <%= label_tag(:metodo_de_pagamento_paypal,'PayPal') %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <input id="clear-cart" type="" class="btn btn-danger" value="Limpar Carrinho"/>
+    <% if (defined? session[:carrinho]) && !session[:carrinho].nil? && session[:carrinho].length != 0 %>
+        <input id="finazalizar-btn" type="submit" class="btn btn-success pull-right" value="Finalizar encomenda" disabled="disabled" />
+    <% end %>
+  </form>
+</div>
+
+
+<%= javascript_include_tag "cart" %>

@@ -44,7 +44,7 @@ $(document).ready(function () {
     })
 });
 
-getProductContainer2 = function(product, img_path) {
+/*getProductContainer2 = function(product, img_path) {
     if (img_path === null) {
         img_path = 'http://placehold.it/400x250/000/fff';
     }
@@ -61,7 +61,7 @@ getProductContainer2 = function(product, img_path) {
         '<p class="lead">' + (product.PVP * (product.IVA / 100.0 + 1)).toFixed(2) +  product.Moeda +   '</p> </div> ' +
         '<div class="col-xs-12 col-md-6"> <a class="add-to-cart-btn btn btn-success" data-id-artigo="' + product.CodArtigo + '">' +
         '<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Adicionar</a> </div> </div> </div> </div> </div> </div>';
-};
+};*/
 
 function getProdutosCategoria(id_cat){
     var url_prods_categoria = null;
@@ -86,7 +86,6 @@ function getProdutosCategoria(id_cat){
             else
                 for(var  i in artigos_temp){
                     artigos[artigos_temp[i].CodArtigo] = artigos_temp[i];
-
                     var top_element = getProductContainer2(artigos_temp[i], null);//utilities.coffee
                     $('#artigos-container').append(top_element);
                     //getImageFromProduct(artigos_temp[i].CodArtigo);
