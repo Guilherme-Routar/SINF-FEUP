@@ -9,6 +9,7 @@ SinfWebstore::Application.routes.draw do
   get 'dashboard' => 'pages#dashboard'
   get 'categoria/:id' => 'categoria#index', :id => /.*/
   get 'product/:id' => 'product#show', :id => /.*/
+  get 'pesquisa' => 'search#index'
 
   delete 'product_description/:id' => 'product_description#destroy'
   put 'product_description' => 'product_description#create'

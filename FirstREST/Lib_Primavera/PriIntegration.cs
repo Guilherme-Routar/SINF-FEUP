@@ -601,6 +601,45 @@ namespace FirstREST.Lib_Primavera
                 return null;
         }
 
+        public static List<Model.Artigo> ProcurarArtigos(string termoProcura)
+        {
+
+            StdBELista objList;
+            List<Model.Artigo> resultado = new List<Model.Artigo>();
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+
+                //objList = PriEngine.Engine.Comercial.Clientes.LstClientes();
+                string query = "SELECT a.Artigo, a.Descricao, a.Marca, a.Modelo, a.Peso, a.UnidadeBase, a.Familia, a.SubFamilia, a.Iva, i.Taxa, " +
+                        " m.PVP1, m.Moeda" +
+                        " FROM Artigo AS a JOIN ArtigoMoeda AS m ON a.Artigo = m.Artigo JOIN Iva as i ON a.Iva = i.Iva WHERE a.Artigo LIKE '%" + termoProcura + "%' OR " +
+                        " a.Descricao LIKE '%" + termoProcura + "%'";
+                objList = PriEngine.Engine.Consulta(query);
+
+
+                while (!objList.NoFim())
+                {
+                    resultado.Add(new Model.Artigo
+                    {
+                        CodArtigo = objList.Valor("Artigo"),
+                        DescArtigo = objList.Valor("Descricao"),
+                        Categoria = objList.Valor("Familia"),
+                        SubCategoria = objList.Valor("SubFamilia"),
+                        PVP = objList.Valor("PVP1"),
+                        Moeda = objList.Valor("Moeda"),
+                        Marca = objList.Valor("Marca"),
+                        IVA = objList.Valor("Taxa")
+                    });
+                    objList.Seguinte();
+
+                }
+
+                return resultado;
+            }
+            else
+                return null;
+        }
+
 
         #endregion Artigo
 
