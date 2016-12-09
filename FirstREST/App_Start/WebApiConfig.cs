@@ -39,6 +39,12 @@ namespace FirstREST
                 routeTemplate: "api/artigos/categoria/{id}/subcategoria/{id2}",
                 defaults: new { controller = "Artigos", action = "Subcategoria" }
             );
+
+            config.Routes.MapHttpRoute(
+                name: "GetArtigosCategoria",
+                routeTemplate: "api/artigos/categoria/{id}",
+                defaults: new { controller = "Artigos", action = "Categoria" }
+            );
             //fim categoria
 
             // Uncomment the following line of code to enable query support for actions with an IQueryable or IQueryable<T> return type.

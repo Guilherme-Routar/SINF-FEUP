@@ -7,21 +7,20 @@
 <%= render 'common/navbar' %>
 
 <!-- Page Content -->
+<br>
+<br>
+<br>
 <div class="container">
   <div class="row">
     <div class="col-xs-9">
 
       <!-- Title -->
       <div class="well well-sm">
-        <h1>CATEGORIA</h1>
-        <% if (defined?(@id_subcategoria)).nil? %>
-            <a href="/categoria/<%= @id_categoria %>"><strong id="titulo-categoria" data-id-categoria=<%= @id_categoria %>></strong></a>
-        <% else %>
-            <a href="/categoria/<%= @id_categoria %>"><strong id="titulo-categoria" data-id-categoria=<%= @id_categoria %>></strong></a> > <a href="/categoria/<%= @id_categoria %>/<%= @id_categoria %>"><strong id="titulo-subcategoria" data-id-subcategoria=<%= @id_subcategoria %>></strong></a>
-        <% end %>
 
+        <a href="/categoria/<%= @id_categoria %>">
 
-      </div>
+          <strong id="titulo-categoria" data-id-categoria=<%= @id_categoria %>></strong></a> <a href="/categoria/<%= @id_categoria %>/<%= @id_categoria %>"></a>
+          </div>
 
       <div>
         <div class="btn-group">

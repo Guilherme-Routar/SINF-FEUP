@@ -227,8 +227,8 @@ namespace FirstREST.Lib_Primavera
                     art = new Model.Artigo();
                     art.CodArtigo = objList.Valor("Artigo");
                     art.DescArtigo = objList.Valor("Descricao");
-                    art.PVP = (objList.Valor("PVP1")).ToString();
-                    art.IVA = (objList.Valor("Taxa")).ToString();
+                    art.PVP = objList.Valor("PVP1");
+                    art.IVA = objList.Valor("Taxa");
                     art.Moeda = objList.Valor("Moeda");
                  
 
@@ -497,12 +497,12 @@ namespace FirstREST.Lib_Primavera
                     artigo.CodArtigo = objListLin.Valor("Artigo");
                     artigo.DescArtigo = objListLin.Valor("Descricao");
                     artigo.Marca = objListLin.Valor("Marca");
-                    artigo.PVP = (objListLin.Valor("PVP1")).ToString();
-                    artigo.PVP2 = (objListLin.Valor("PVP2")).ToString();
+                    artigo.PVP = objListLin.Valor("PVP1");
+                    artigo.PVP2 = objListLin.Valor("PVP2");
                     artigo.Categoria = objListLin.Valor("Familia");
                     artigo.Estado = objListLin.Valor("familiaDesc");
                     artigo.Moeda = objListLin.Valor("Moeda");
-                    artigo.IVA = (objListLin.Valor("Taxa")).ToString();
+                    artigo.IVA = objListLin.Valor("Taxa");
 
                     /*if (artigo.Categoria != "")
                     {
@@ -578,7 +578,7 @@ namespace FirstREST.Lib_Primavera
 
                 objList = PriEngine.Engine.Consulta("SELECT a.*," +
                         " m.*, i.Taxa " +
-                        " FROM Artigo AS a JOIN ArtigoMoeda AS m ON a.Artigo = m.Artigo JOIN Iva as i ON a.Iva = i.Iva WHERE a.Familia = '" + cat);
+                        " FROM Artigo AS a JOIN ArtigoMoeda AS m ON a.Artigo = m.Artigo JOIN Iva as i ON a.Iva = i.Iva WHERE a.Familia = '" + cat + "'");
 
                 while (!objList.NoFim())
                 {

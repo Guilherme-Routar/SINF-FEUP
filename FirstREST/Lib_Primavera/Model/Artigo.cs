@@ -19,19 +19,19 @@ namespace FirstREST.Lib_Primavera.Model
             set;
         }
 
-        public string PVP
+        public double PVP
         {
             get;
             set;
         }
 
-        public string PVP2
+        public double PVP2
         {
             get;
             set;
         }
 
-        public string IVA
+        public double IVA
         {
             get;
             set;
