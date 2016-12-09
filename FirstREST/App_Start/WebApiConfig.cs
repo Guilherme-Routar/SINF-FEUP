@@ -15,6 +15,32 @@ namespace FirstREST
                 defaults: new { id = RouteParameter.Optional }
             );
 
+            //categoria
+            config.Routes.MapHttpRoute(
+                name: "GetSubCategoriaDeCategoria",
+                routeTemplate: "api/categorias/{id}/subcategorias",
+                defaults: new { controller = "Categorias", action = "Subcategorias" }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "GetSubCategoria",
+                routeTemplate: "api/categorias/{id2}/subcategoria/{id}",
+                defaults: new { controller = "Categorias", action = "Subcategoria" }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "GetCategoria",
+                routeTemplate: "api/categorias/{id}/",
+                defaults: new { controller = "Categorias", action = "Get" }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "GetArtigosSubCategoria",
+                routeTemplate: "api/artigos/categoria/{id}/subcategoria/{id2}",
+                defaults: new { controller = "Artigos", action = "Subcategoria" }
+            );
+            //fim categoria
+
             // Uncomment the following line of code to enable query support for actions with an IQueryable or IQueryable<T> return type.
             // To avoid processing unexpected or malicious queries, use the validation settings on QueryableAttribute to validate incoming queries.
             // For more information, visit http://go.microsoft.com/fwlink/?LinkId=279712.

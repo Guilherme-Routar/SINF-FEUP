@@ -49,7 +49,7 @@ $(document).ready(function () {
     });
 
 
-    var url_categorias = base_url_primavera + '/ListaCategorias';
+    var url_categorias = base_url_primavera + '/categorias';
     console.log(url_categorias);
     $('#categorias-container').html(botao_loadCategorias);
     $.ajax({
@@ -67,12 +67,13 @@ $(document).ready(function () {
 
                 top[i] = $.parseJSON(JSON.stringify(data[i]));
                 cod = top[i].CodCategoria;
+                console.log("COD" + top[i].CodCategoria);
                 desc = top[i].DescCategoria;
                 numExemplares ="Numero de Exemplares" + top[i].numExemplaresCategoria;
 
                 var top_element = '<div class="item  col-xs-12 col-sm-4 col-lg-4"> ' +
                     '<div class="thumbnail"> <img id="img-artigo-'  + '" class="group list-group-image" src="' + '" alt="" /> ' +
-                    '<div class="caption"> <a href="/product/' + '">' +
+                    '<div class="caption"> <a href="/categoria/' +  cod + '">' +
                     '<h4 class="group inner list-group-item-heading one-line-elipsis">' + desc + '</h4></a> ' +
                     '<div class="container-fluid"> ' +
                     '<div class="row"> ' +

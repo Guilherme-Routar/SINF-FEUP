@@ -9,6 +9,7 @@ using System.Web.Http;
 using System.Web.Script.Serialization;
 using FirstREST.Lib_Primavera.Model;
 using FirstREST.IP;
+using ADODB;
 
 
 
@@ -28,9 +29,9 @@ namespace FirstREST.Controllers
 
 
         // GET api/artigo/5    
-        public Artigo Get(string id)
+        public Artigo Get(string uid)
         {
-            Lib_Primavera.Model.Artigo artigo = Lib_Primavera.PriIntegration.GetArtigo(id);
+            Lib_Primavera.Model.Artigo artigo = Lib_Primavera.PriIntegration.GetArtigo(uid);
             if (artigo == null)
             {
                 throw new HttpResponseException(
@@ -43,7 +44,22 @@ namespace FirstREST.Controllers
             }
         }
 
-        
+        [System.Web.Http.HttpPost]
+        public HttpResponseMessage Categoria(string id)
+        {
+            List<Artigo> produtosCategoria = Lib_Primavera.PriIntegration.GetArtigosCategoria(id);
+            if (produtosCategoria == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.Forbidden);
+            }
+            else
+            {
+                HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", LocalhostIP.localhostIP());
+                var json = new JavaScriptSerializer().Serialize(produtosCategoria);
+                var response = Request.CreateResponse(HttpStatusCode.OK, json);
+                return response;
+            }
+        }
 
     }
 }

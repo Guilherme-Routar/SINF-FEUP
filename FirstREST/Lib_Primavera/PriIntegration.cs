@@ -101,7 +101,7 @@ namespace FirstREST.Lib_Primavera
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
 
-                objList = PriEngine.Engine.Consulta("SELECT SubFamilia, Descricao FROM SubFamilias WHERE SubFamilia ='" + codCategoria + "' AND Familia = LIV");
+                objList = PriEngine.Engine.Consulta("SELECT Familia, Descricao FROM Familias WHERE Familia ='" + codCategoria + "'");
 
                 if (objList.NoFim())
                 {
@@ -110,7 +110,7 @@ namespace FirstREST.Lib_Primavera
                 else
                 {
                     Model.Categoria cat = new Model.Categoria{
-                        CodCategoria = objList.Valor("SubFamilia"),
+                        CodCategoria = objList.Valor("Familia"),
                         DescCategoria = objList.Valor("Descricao")
                     };
 
@@ -137,12 +137,12 @@ namespace FirstREST.Lib_Primavera
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
 
-                objList = PriEngine.Engine.Consulta("SELECT SubFamilia, Descricao FROM SubFamilias WHERE Familia = 'LIV'");
+                objList = PriEngine.Engine.Consulta("SELECT Familia, Descricao FROM Familias");
 
                 while (!objList.NoFim())
                 {
                     cat = new Model.Categoria();
-                    cat.CodCategoria = objList.Valor("SubFamilia");
+                    cat.CodCategoria = objList.Valor("Familia");
                     cat.DescCategoria = objList.Valor("Descricao");
                     cat.numExemplaresCategoria = 1;
 
@@ -565,7 +565,47 @@ namespace FirstREST.Lib_Primavera
 
         }
 
+        
+
+        public static List<Model.Artigo> GetArtigosCategoria(string cat) 
+        {
+            StdBELista objList;
+            List<Model.Artigo> listArtigos = new List<Model.Artigo>();
+
+
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+
+                objList = PriEngine.Engine.Consulta("SELECT a.*," +
+                        " m.*, i.Taxa " +
+                        " FROM Artigo AS a JOIN ArtigoMoeda AS m ON a.Artigo = m.Artigo JOIN Iva as i ON a.Iva = i.Iva WHERE a.Familia = '" + cat);
+
+                while (!objList.NoFim())
+                {
+                    listArtigos.Add(new Model.Artigo
+                    {
+                        CodArtigo = objList.Valor("Artigo"),
+                        DescArtigo = objList.Valor("Descricao"),
+                        Categoria = objList.Valor("Familia"),
+                        Marca = objList.Valor("Marca"),
+                        Moeda = objList.Valor("Moeda"),
+                        PVP = objList.Valor("PVP1"),
+                        IVA = objList.Valor("Taxa")
+                    });
+
+                    objList.Seguinte();
+                }
+                return listArtigos;
+            }
+            else
+                return null;
+        }
+
+
         #endregion Artigo
+
+
+
 
    
 
