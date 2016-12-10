@@ -10,7 +10,7 @@ SinfWebstore::Application.routes.draw do
   get 'categoria/:id' => 'categoria#index', :id => /.*/
   get 'product/:id' => 'product#show', :id => /.*/
   get 'pesquisa' => 'search#index'
-
+  get 'client' => 'profiles#show'
   get 'carrinho' => 'cart#index'
   post 'carrinho/adicionar' => 'cart#add_to_cart'
   get 'carrinho/limpar' => 'cart#clear_cart'
