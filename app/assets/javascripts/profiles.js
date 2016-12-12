@@ -1,4 +1,4 @@
-var base_url_primavera = 'http://localhost:49526/api';
+var base_url_primavera = 'http://localhost:49822/api';
 //var url_produto = 'http://localhost:3000/product/'
 var artigos = [];
 
@@ -8,6 +8,7 @@ $(document).ready(function () {
 
 function getProdutosCliente(id_cliente){
 	var url_prods_cliente = base_url_primavera + '/clientes/'+ id_cliente + '/encomendas';
+	console.log("ID CLIENTE  : " + id_cliente);
 
     var re = /-?\d+/;
 

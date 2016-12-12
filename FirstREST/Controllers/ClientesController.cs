@@ -6,6 +6,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using FirstREST.Lib_Primavera.Model;
+using FirstREST.IP;
+using System.Web.Script.Serialization;
 
 namespace FirstREST.Controllers
 {
@@ -32,6 +34,7 @@ namespace FirstREST.Controllers
             }
             else
             {
+                HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", LocalhostIP.localhostIP());
                 return cliente;
             }
         }
@@ -112,6 +115,58 @@ namespace FirstREST.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, erro.Descricao);
 
             }
+
+        }
+
+        // api/clientes/id/encomendas
+      public HttpResponseMessage Get(string id, string encomendas)
+        {
+            if (encomendas.Equals("encomendas"))
+            {
+                IEnumerable<Lib_Primavera.Model.DocVenda> listaEncomendas = Lib_Primavera.PriIntegration.getEncomendasCliente(id);
+
+                if (listaEncomendas == null)
+                {
+                    var response = Request.CreateResponse(HttpStatusCode.NotFound);
+                    return response;
+                }
+                else
+                {
+                    HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", LocalhostIP.localhostIP());
+                    var json = new JavaScriptSerializer().Serialize(listaEncomendas);
+                    var response = Request.CreateResponse(HttpStatusCode.OK, json);
+                    return response;
+                }
+            }
+            else
+            {
+                throw new HttpResponseException(
+                Request.CreateResponse(HttpStatusCode.Ambiguous));
+            }
+        }
+
+
+       
+        // api/clientes/id/encomendas/id_encomenda
+        [System.Web.Http.HttpGet]
+        public HttpResponseMessage GetEncomenda(string idCliente, string idEncomenda)
+        {
+
+            Lib_Primavera.Model.DocVenda encomenda = Lib_Primavera.PriIntegration.getEncomendaCliente(idCliente, idEncomenda);
+
+            if (encomenda == null)
+            {
+                var response = Request.CreateResponse(HttpStatusCode.NotFound);
+                return response;
+            }
+            else
+            {
+                HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", LocalhostIP.localhostIP());
+                var json = new JavaScriptSerializer().Serialize(encomenda);
+                var response = Request.CreateResponse(HttpStatusCode.OK, json);
+                return response;
+            }
+
 
         }
 

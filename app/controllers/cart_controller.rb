@@ -62,13 +62,14 @@ class CartController < ApplicationController
         current_user.save!
       else #se nao criou
         redirect_to cart_path
+
       end
 
     end
 
     #ENVIAR VENDA
     # get the url that we need to post to
-    url = URI.parse('http://localhost:49526/api/docvenda')
+    url = URI.parse('http://localhost:49822/api/docvenda')
     http = Net::HTTP.new(url.host, url.port)
     http.read_timeout = 300 #Default is 60 seconds
     linhasDoc = []

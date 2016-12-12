@@ -7,7 +7,6 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using FirstREST.Lib_Primavera.Model;
-
 namespace FirstREST.Controllers
 {
     public class DocCompraController : ApiController
@@ -19,9 +18,9 @@ namespace FirstREST.Controllers
             return Lib_Primavera.PriIntegration.VGR_List();
         }
 
-        /*
+        
         // GET api/cliente/5    
-        public Lib_Primavera.Model.DocCompra Get(string id)
+        /*public Lib_Primavera.Model.DocCompra Get(string id)
         {
             Lib_Primavera.Model.DocVenda doccompra = Lib_Primavera.Comercial.GR_List(id);
             if (docvenda == null)
@@ -34,8 +33,8 @@ namespace FirstREST.Controllers
             {
                 return docvenda;
             }
-        }
-        */
+        }*/
+        
 
 
         public HttpResponseMessage Post(Lib_Primavera.Model.DocCompra dc)

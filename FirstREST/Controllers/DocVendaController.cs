@@ -6,7 +6,10 @@ using System.Web.Mvc;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using FirstREST.IP;
 using FirstREST.Lib_Primavera.Model;
+using System.Web.Script.Serialization;
+
 
 
 namespace FirstREST.Controllers
@@ -18,7 +21,7 @@ namespace FirstREST.Controllers
 
         public IEnumerable<Lib_Primavera.Model.DocVenda> Get()
         {
-            return Lib_Primavera.PriIntegration.Encomendas_List();
+            return Lib_Primavera.PriIntegration.Encomendas_List(-1, -1);
         }
 
 
@@ -34,6 +37,7 @@ namespace FirstREST.Controllers
             }
             else
             {
+                HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", LocalhostIP.localhostIP());
                 return docvenda;
             }
         }
@@ -114,6 +118,19 @@ namespace FirstREST.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, erro.Descricao);
 
             }
+
+        }
+
+        [System.Web.Http.HttpPost]
+        public HttpResponseMessage GetEncomendasCliente(String id)
+        {
+            HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", LocalhostIP.localhostIP());
+            List<Lib_Primavera.Model.DocVenda> lista = Lib_Primavera.PriIntegration.Encomendas_List(id);
+            var json = new JavaScriptSerializer().Serialize(lista);
+            var response = Request.CreateResponse(HttpStatusCode.Created, json);
+            //string uri = Url.Link("DefaultApi", new { DocId = dv.id });
+            //response.Headers.Location = new Uri(uri);
+            return response;
 
         }
     }
