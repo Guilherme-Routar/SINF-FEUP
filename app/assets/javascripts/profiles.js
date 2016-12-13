@@ -7,7 +7,7 @@ $(document).ready(function () {
 });
 
 function getProdutosCliente(id_cliente){
-	var url_prods_cliente = base_url_primavera + '/clientes/'+ id_cliente + '/encomendas';
+	var url_prods_cliente = base_url_primavera + '/ClienteDocVenda/'+ id_cliente;
 	console.log("ID CLIENTE  : " + id_cliente);
 
     var re = /-?\d+/;
@@ -21,7 +21,7 @@ function getProdutosCliente(id_cliente){
         dataType: 'json',
         success: function(data) {
             console.log(data);
-            var artigos_temp = $.parseJSON(data);
+            var artigos_temp = data;
 
             for(var  i in artigos_temp){
                 artigos[artigos_temp[i].CodArtigo] = artigos_temp[i];
@@ -34,7 +34,7 @@ function getProdutosCliente(id_cliente){
                   '<a id="' +  artigos_temp[i].id + '" class="collapsed show-order" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-' + i + '" aria-expanded="false" aria-controls="collapse-' + i + '">'+
                     '<div class="row">'+
                         '<div class="col-lg-4">' + artigos_temp[i].NumDoc + '/' + artigos_temp[i].Serie +'</div>'+
-                        '<div class="col-lg-4">' + d.format("dd/mm/yyyy") + '</div>'+
+                        '<div class="col-lg-4">' + d.format("yyyy-mm-dd") + '</div>'+
                         '<div class="col-lg-4">' + (artigos_temp[i].TotalMerc + artigos_temp[i].TotalIva).toFixed(2) + ' €</div>'+
                     '</div>'+
                   '</a>'+
