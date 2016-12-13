@@ -7,7 +7,7 @@ $(document).ready(function () {
 });
 
 function getProdutosCliente(id_cliente){
-	var url_prods_cliente = base_url_primavera + '/clientes/'+ id_cliente + '/encomendas';
+	var url_prods_cliente = base_url_primavera + '/ClienteDocVenda/'+ id_cliente;
 	console.log("ID CLIENTE  : " + id_cliente);
 
     var re = /-?\d+/;
@@ -21,7 +21,7 @@ function getProdutosCliente(id_cliente){
         dataType: 'json',
         success: function(data) {
             console.log(data);
-            var artigos_temp = $.parseJSON(data);
+            var artigos_temp = data;
 
             for(var  i in artigos_temp){
                 artigos[artigos_temp[i].CodArtigo] = artigos_temp[i];
