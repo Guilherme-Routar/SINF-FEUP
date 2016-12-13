@@ -65,6 +65,12 @@ namespace FirstREST.Lib_Primavera.Model
             set;
         }
 
+          public double IVA
+          {
+              get;
+              set;
+          }
+
 
     }
 }

@@ -212,6 +212,7 @@
     <Compile Include="Controllers\ArtigosController.cs" />
     <Compile Include="Controllers\AutorController.cs" />
     <Compile Include="Controllers\CarrinhoController.cs" />
+    <Compile Include="Controllers\ClienteDocVendaController.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
     <Compile Include="Controllers\DocCompraController.cs" />
     <Compile Include="Controllers\DocVendaController.cs" />

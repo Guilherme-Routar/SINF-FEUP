@@ -1,79 +1,48 @@
-SinfWebstore::Application.routes.draw do
-  resources :books
+Rails.application.routes.draw do
+  get 'image/new'
 
-  devise_for :users
+  get 'encomenda/new'
+
+  get 'encomenda/show'
+
+  resources :profiles
+
+  delete 'carrinho/single/:id' => 'cart#remove_from_cart'
+  resources :cart
+
   root 'home#index'
 
   get 'home/index'
-  get 'pesquisa' => 'search#index'
-  get 'dashboard' => 'pages#dashboard'
-  get 'categoria/:id' => 'categoria#index', :id => /.*/
-  get 'product/:id' => 'product#show', :id => /.*/
-  get 'pesquisa' => 'search#index'
-  get 'client' => 'profiles#show'
-  get 'carrinho' => 'cart#index'
-  post 'carrinho/adicionar' => 'cart#add_to_cart'
-  get 'carrinho/limpar' => 'cart#clear_cart'
+
+  delete 'image/:id' => 'image#destroy'
+  put 'image' => 'image#create'
+  get 'image/id_produto/:id' => 'image#productImg', :id => /.*/
 
   delete 'product_description/:id' => 'product_description#destroy'
   put 'product_description' => 'product_description#create'
-
   post 'reviews' => 'review#create'
   delete 'review/:id' => 'review#destroy'
 
+  get 'categoria/:id' => 'categoria#index', :id => /.*/
 
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
+  get 'product/:id' => 'product#show', :id => /.*/
+  get 'client' => 'profiles#show'
 
-  # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  get 'carrinho' => 'cart#index'
+  post 'carrinho' => 'cart#send_cart_primavera'
 
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
+  get 'carrinho/adicionar/:id_produto/:quantity' => 'cart_product#add', :id_produto => /.*/
+  post 'carrinho/adicionar' => 'cart#add_to_cart'
+  get 'carrinho/limpar' => 'cart#clear_cart'
 
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
+  get 'admins' => 'admin#index'
 
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
+  get 'encomenda/:id' => 'encomenda#show', :id => /.*/
 
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
+  get 'pesquisa' => 'search#index'
 
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
+  get 'encomendas/user/:id' => 'encomenda#getUser'
 
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
+  devise_for :users, :controllers => { registrations: 'registration' }
 
-  # Example resource route with concerns:
-  #   concern :toggleable do
-  #     post 'toggle'
-  #   end
-  #   resources :posts, concerns: :toggleable
-  #   resources :photos, concerns: :toggleable
-
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
 end
