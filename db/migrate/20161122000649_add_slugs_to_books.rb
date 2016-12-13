@@ -4,3 +4,5 @@ class AddSlugsToBooks < ActiveRecord::Migration
     add_index :books, :slug, unique: true
   end
 end
+
+

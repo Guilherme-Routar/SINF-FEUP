@@ -18,7 +18,7 @@ namespace FirstREST.Controllers
 
         public IEnumerable<Lib_Primavera.Model.DocVenda> Get()
         {
-            return Lib_Primavera.PriIntegration.Encomendas_List();
+            return Lib_Primavera.PriIntegration.Encomendas_List(-1, -1);
         }
 
 

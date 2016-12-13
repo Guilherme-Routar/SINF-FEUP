@@ -1,19 +1,26 @@
 SinfWebstore::Application.routes.draw do
+  get "encomenda/new"
+  get "encomenda/show"
+
   resources :books
+  resources :cart
 
   devise_for :users
   root 'home#index'
-
   get 'home/index'
   get 'pesquisa' => 'search#index'
   get 'dashboard' => 'pages#dashboard'
   get 'categoria/:id' => 'categoria#index', :id => /.*/
   get 'product/:id' => 'product#show', :id => /.*/
   get 'pesquisa' => 'search#index'
-
-  get 'carrinho' => 'cart#index'
+  get 'client' => 'profiles#show'
+  get 'cart/index', :as => :carrinho
   post 'carrinho/adicionar' => 'cart#add_to_cart'
   get 'carrinho/limpar' => 'cart#clear_cart'
+  post 'carrinho' => 'cart#send_cart_primavera'
+  get 'admins' => 'admin#index'
+  get 'encomenda/:id' => 'encomenda#show', :id => /.*/
+  get 'encomendas/user/:id' => 'encomenda#getUser'
 
   delete 'product_description/:id' => 'product_description#destroy'
   put 'product_description' => 'product_description#create'
