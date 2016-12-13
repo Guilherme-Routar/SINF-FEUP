@@ -16,29 +16,38 @@ namespace FirstREST.Controllers
         //
         // GET: /Clientes/
 
-        public IEnumerable<Lib_Primavera.Model.Cliente> Get()
+        public HttpResponseMessage Get()
         {
-                return Lib_Primavera.PriIntegration.ListaClientes();
-        }
+            IEnumerable<Lib_Primavera.Model.Cliente> listaClientes = Lib_Primavera.PriIntegration.ListaClientes();
 
-
-        // GET api/cliente/5    
-        public Cliente Get(string id)
-        {
-            Lib_Primavera.Model.Cliente cliente = Lib_Primavera.PriIntegration.GetCliente(id);
-            if (cliente == null)
+            if (listaClientes == null)
             {
-                throw new HttpResponseException(
-                        Request.CreateResponse(HttpStatusCode.NotFound));
-
+                return Request.CreateResponse(HttpStatusCode.Forbidden);
             }
             else
             {
                 HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", LocalhostIP.localhostIP());
-                return cliente;
+                var json = new JavaScriptSerializer().Serialize(listaClientes);
+                var response = Request.CreateResponse(HttpStatusCode.OK, json);
+                return response;
             }
         }
 
+        // GET api/cliente/5    
+        public HttpResponseMessage Get(string id)
+        {
+            Lib_Primavera.Model.Cliente cliente = Lib_Primavera.PriIntegration.GetCliente(id);
+            if (cliente == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+            else
+            {
+                var json = new JavaScriptSerializer().Serialize(cliente);
+                var response = Request.CreateResponse(HttpStatusCode.OK, json);
+                return response;
+            }
+        }
 
         public HttpResponseMessage Post(Lib_Primavera.Model.Cliente cliente)
         {
@@ -50,6 +59,8 @@ namespace FirstREST.Controllers
             if (erro.Erro == 0)
             {
                 var response = Request.CreateResponse(HttpStatusCode.Created, cliente);
+                /* string uri = Url.Link("DefaultApi", new { CodCliente = cliente.CodCliente });
+                 response.Headers.Location = new Uri(uri);*/
                 return response;
             }
 
@@ -59,7 +70,6 @@ namespace FirstREST.Controllers
             }
 
         }
-
 
         public HttpResponseMessage Put(string id, Lib_Primavera.Model.Cliente cliente)
         {
@@ -113,12 +123,13 @@ namespace FirstREST.Controllers
 
         }
 
+        // get all orders
         // api/clientes/id/encomendas
-      public HttpResponseMessage Get(string id, string encomendas)
+        public HttpResponseMessage Get(string id, string encomendas)
         {
             if (encomendas.Equals("encomendas"))
             {
-                IEnumerable<Lib_Primavera.Model.DocVenda> listaEncomendas = Lib_Primavera.PriIntegration.getEncomendasCliente(id);
+                IEnumerable<Lib_Primavera.Model.DocVenda> listaEncomendas = Lib_Primavera.PriIntegration.Encomendas_List(id);
 
                 if (listaEncomendas == null)
                 {
@@ -141,13 +152,13 @@ namespace FirstREST.Controllers
         }
 
 
-       
+        // get order
         // api/clientes/id/encomendas/id_encomenda
         [System.Web.Http.HttpGet]
         public HttpResponseMessage GetEncomenda(string idCliente, string idEncomenda)
         {
 
-            Lib_Primavera.Model.DocVenda encomenda = Lib_Primavera.PriIntegration.getEncomendaCliente(idCliente, idEncomenda);
+            Lib_Primavera.Model.DocVenda encomenda = Lib_Primavera.PriIntegration.Encomenda_Cliente(idCliente, idEncomenda);
 
             if (encomenda == null)
             {
@@ -164,7 +175,5 @@ namespace FirstREST.Controllers
 
 
         }
-
-
     }
 }
