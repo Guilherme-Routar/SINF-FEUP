@@ -1134,7 +1134,7 @@ namespace FirstREST.Lib_Primavera
                     objListLin = PriEngine.Engine.Consulta("SELECT idCabecDoc, Artigo, Descricao, Quantidade, Unidade, PrecUnit, Desconto1, TotalILiquido, PrecoLiquido from LinhasDoc where IdCabecDoc='" + dv.id + "' order By NumLinha");
                     listlindv = new List<Model.LinhaDocVenda>();
 
-                   /* while (!objListLin.NoFim())
+                   while (!objListLin.NoFim())
                     {
                         lindv = new Model.LinhaDocVenda();
                         lindv.IdCabecDoc = objListLin.Valor("idCabecDoc");
@@ -1151,7 +1151,7 @@ namespace FirstREST.Lib_Primavera
                         objListLin.Seguinte();
                     }
 
-                    dv.LinhasDoc = listlindv;*/
+                    dv.LinhasDoc = listlindv;
                     listdv.Add(dv);
                     objListCab.Seguinte();
                 }
