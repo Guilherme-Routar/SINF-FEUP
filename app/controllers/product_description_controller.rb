@@ -6,7 +6,7 @@ class ProductDescriptionController < ApplicationController
 		  @desc = ProductDescription.new(desc_params)
 	  else
 		  old.description = params[:product_description][:description]
-		  @desc = old
+		  @desc = oldra
 	  end
 	  if @desc.save
         render :json => @desc

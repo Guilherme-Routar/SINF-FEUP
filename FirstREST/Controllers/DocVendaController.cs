@@ -21,6 +21,7 @@ namespace FirstREST.Controllers
 
         public IEnumerable<Lib_Primavera.Model.DocVenda> Get()
         {
+            HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", LocalhostIP.localhostIP());
             return Lib_Primavera.PriIntegration.Encomendas_List(-1, -1);
         }
 
@@ -28,6 +29,8 @@ namespace FirstREST.Controllers
         // GET api/cliente/5    
         public Lib_Primavera.Model.DocVenda Get(string id)
         {
+            HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", LocalhostIP.localhostIP());
+
             Lib_Primavera.Model.DocVenda docvenda = Lib_Primavera.PriIntegration.Encomenda_Get(id);
             if (docvenda == null)
             {
@@ -37,7 +40,6 @@ namespace FirstREST.Controllers
             }
             else
             {
-                HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", LocalhostIP.localhostIP());
                 return docvenda;
             }
         }
@@ -45,21 +47,20 @@ namespace FirstREST.Controllers
 
         public HttpResponseMessage Post(Lib_Primavera.Model.DocVenda dv)
         {
+            HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", LocalhostIP.localhostIP());
             Lib_Primavera.Model.RespostaErro erro = new Lib_Primavera.Model.RespostaErro();
             erro = Lib_Primavera.PriIntegration.Encomendas_New(dv);
 
             if (erro.Erro == 0)
             {
-                var response = Request.CreateResponse(
-                   HttpStatusCode.Created, dv.id);
-                string uri = Url.Link("DefaultApi", new {DocId = dv.id });
-                response.Headers.Location = new Uri(uri);
+                var json = new JavaScriptSerializer().Serialize(dv);
+                var response = Request.CreateResponse(HttpStatusCode.Created, json);
                 return response;
             }
 
             else
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, erro.Descricao);
             }
 
         }
@@ -128,10 +129,19 @@ namespace FirstREST.Controllers
             List<Lib_Primavera.Model.DocVenda> lista = Lib_Primavera.PriIntegration.Encomendas_List(id);
             var json = new JavaScriptSerializer().Serialize(lista);
             var response = Request.CreateResponse(HttpStatusCode.Created, json);
-            //string uri = Url.Link("DefaultApi", new { DocId = dv.id });
-            //response.Headers.Location = new Uri(uri);
             return response;
 
         }
+
+
+        [System.Web.Http.HttpGet]
+        public IEnumerable<Lib_Primavera.Model.DocVenda> GetEncomendasMes(int mes, int ano)
+        {
+            HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", LocalhostIP.localhostIP());
+            return Lib_Primavera.PriIntegration.Encomendas_List(mes, ano);
+        }
+
+
+      
     }
 }

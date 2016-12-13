@@ -51,7 +51,7 @@ class CartController < ApplicationController
               'Morada' => current_user.morada, 'Localidade' => current_user.localidade, 'CodPostal' => current_user.codigo,
               'Moeda' => 'EUR', 'CondicaoPag' => 1 }
 
-      url2 = URI.parse('http://localhost:49822/api/clientes')
+      url2 = URI.parse('http://localhost:49526/api/clientes')
       http2 = Net::HTTP.new(url2.host, url2.port)
       http2.read_timeout = 100 #Default is 60 seconds
 
@@ -62,7 +62,6 @@ class CartController < ApplicationController
         current_user.save!
       else #se nao criou
         redirect_to cart_path
-
       end
 
     end
@@ -76,20 +75,23 @@ class CartController < ApplicationController
     number_artigos = params[:artigo].length - 1
     (0..number_artigos).each do |i|
       artigo = { 'CodArtigo' => params[:artigo][i] , 'Quantidade' => params[:quantidade][i].to_i, 'PrecoUnitario' => params[:preco][i].to_f}
-      linhasDoc.push artigo
+      linhasDoc.push(artigo);
+      Rails.logger.debug("My object: #{@artigo.inspect}")
     end
     # build the params string
     post_args1 = { 'Entidade' => current_user.entidade , 'Serie' => 'C', 'LinhasDoc' => linhasDoc }
+    Rails.logger.debug("My LINHAS DOC: #{@linhasDoc.inspect}")
+
     # send the request
     response = http.post(url.path, post_args1.to_json, json_headers)
 
     if response.code == '201'
       CartProduct.where(:user_id => current_user.id).destroy_all
-      #render :json => {"success" => response.code}
+      render :json => {"success" => response.code}
       session[:carrinho] = Hash.new
       redirect_to profile_path(current_user.id)
     else
-      #render :json => {"erro" => response.code}
+      render :json => {"erro" => response.code}
       redirect_to cart_path
     end
 

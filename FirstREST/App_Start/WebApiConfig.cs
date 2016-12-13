@@ -31,7 +31,7 @@ namespace FirstREST
             //doc venda
             config.Routes.MapHttpRoute(
                 name: "GetEncomendasMes",
-                routeTemplate: "api/docvenda/{ano}/{mes}",
+                routeTemplate: "api/docvenda/{mes}/{ano}",
                 defaults: new { controller = "DocVenda", action = "GetEncomendasMes" }
             );
 

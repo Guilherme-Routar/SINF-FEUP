@@ -7,6 +7,7 @@ using Interop.StdPlatBS900;
 using Interop.StdBE900;
 using Interop.GcpBE900;
 using Interop.ErpBS900;
+using Interop.IGcpBS900;
 using ADODB;
 
 namespace FirstREST.Lib_Primavera
@@ -445,6 +446,10 @@ namespace FirstREST.Lib_Primavera
                     myCli.set_NumContribuinte(cli.NumContribuinte);
                     myCli.set_Moeda(cli.Moeda);
                     myCli.set_Morada(cli.Morada);
+                    myCli.set_CodigoPostal(cli.CodPostal);
+                    myCli.set_Localidade(cli.Localidade);
+                    myCli.set_LocalidadeCodigoPostal(cli.Localidade);
+                    myCli.set_CondPag(cli.CondicaoPag);
 
                     PriEngine.Engine.Comercial.Clientes.Actualiza(myCli);
 
@@ -915,14 +920,14 @@ namespace FirstREST.Lib_Primavera
         {
             Lib_Primavera.Model.RespostaErro erro = new Model.RespostaErro();
             GcpBEDocumentoVenda myEnc = new GcpBEDocumentoVenda();
-             
+
             GcpBELinhaDocumentoVenda myLin = new GcpBELinhaDocumentoVenda();
 
             GcpBELinhasDocumentoVenda myLinhas = new GcpBELinhasDocumentoVenda();
-             
+
             PreencheRelacaoVendas rl = new PreencheRelacaoVendas();
             List<Model.LinhaDocVenda> lstlindv = new List<Model.LinhaDocVenda>();
-            
+            bool iniciouTransaccao = false;
             try
             {
                 if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
@@ -941,14 +946,16 @@ namespace FirstREST.Lib_Primavera
                     {
                         PriEngine.Engine.Comercial.Vendas.AdicionaLinha(myEnc, lin.CodArtigo, lin.Quantidade, "", "", lin.PrecoUnitario, lin.Desconto);
                     }
-                    
 
-                   // PriEngine.Engine.Comercial.Compras.TransformaDocumento(
+
+                    // PriEngine.Engine.Comercial.Compras.TransformaDocumento(
 
                     PriEngine.Engine.IniciaTransaccao();
+                    iniciouTransaccao = true;
                     //PriEngine.Engine.Comercial.Vendas.Edita Actualiza(myEnc, "Teste");
                     PriEngine.Engine.Comercial.Vendas.Actualiza(myEnc, "Teste");
                     PriEngine.Engine.TerminaTransaccao();
+                    iniciouTransaccao = false;
                     erro.Erro = 0;
                     erro.Descricao = "Sucesso";
                     return erro;
@@ -964,12 +971,16 @@ namespace FirstREST.Lib_Primavera
             }
             catch (Exception ex)
             {
-                PriEngine.Engine.DesfazTransaccao();
+                if (iniciouTransaccao)
+                    PriEngine.Engine.DesfazTransaccao();
                 erro.Erro = 1;
                 erro.Descricao = ex.Message;
                 return erro;
             }
         }
+
+
+
 
 
 
@@ -1003,7 +1014,7 @@ namespace FirstREST.Lib_Primavera
                     objListLin = PriEngine.Engine.Consulta("SELECT * from LinhasDoc where IdCabecDoc='" + dv.id + "' order By NumLinha");
                     listlindv = new List<Model.LinhaDocVenda>();
 
-                    /* while (!objListLin.NoFim())
+                    while (!objListLin.NoFim())
                      {
                          lindv = new Model.LinhaDocVenda();
                          lindv.IdCabecDoc = objListLin.Valor("idCabecDoc");
@@ -1015,11 +1026,11 @@ namespace FirstREST.Lib_Primavera
                          lindv.PrecoUnitario = objListLin.Valor("PrecUnit");
                          lindv.TotalILiquido = objListLin.Valor("TotalILiquido");
                          lindv.TotalLiquido = objListLin.Valor("PrecoLiquido");
-                         lindv.IVA = objListLin.Valor("IVA");
+                         //lindv.IVA = objListLin.Valor("IVA");
 
                          listlindv.Add(lindv);
                          objListLin.Seguinte();
-                     }*/
+                     }
 
                     dv.LinhasDoc = listlindv;
                     listdv.Add(dv);
@@ -1029,8 +1040,6 @@ namespace FirstREST.Lib_Primavera
             return listdv;
         }
 
-
-       
 
         public static Model.DocVenda Encomenda_Get(string numdoc)
         {
@@ -1079,6 +1088,7 @@ namespace FirstREST.Lib_Primavera
             }
             return null;
         }
+
 
         public static List<Model.DocVenda> Encomendas_List(string clienteID)
         {
