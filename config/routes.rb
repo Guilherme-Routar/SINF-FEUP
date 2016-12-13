@@ -1,20 +1,48 @@
+<<<<<<< HEAD
 SinfWebstore::Application.routes.draw do
   get "encomenda/new"
   get "encomenda/show"
 
   resources :books
+=======
+Rails.application.routes.draw do
+  get 'image/new'
+
+  get 'encomenda/new'
+
+  get 'encomenda/show'
+
+  resources :profiles
+
+  delete 'carrinho/single/:id' => 'cart#remove_from_cart'
+>>>>>>> 44533ecea209aaf0daccb5ddda5b7394adcfa68a
   resources :cart
 
-  devise_for :users
   root 'home#index'
   get 'home/index'
-  get 'pesquisa' => 'search#index'
-  get 'dashboard' => 'pages#dashboard'
+
+  delete 'image/:id' => 'image#destroy'
+  put 'image' => 'image#create'
+  get 'image/id_produto/:id' => 'image#productImg', :id => /.*/
+
+  delete 'product_description/:id' => 'product_description#destroy'
+  put 'product_description' => 'product_description#create'
+  post 'reviews' => 'review#create'
+  delete 'review/:id' => 'review#destroy'
+
   get 'categoria/:id' => 'categoria#index', :id => /.*/
+
   get 'product/:id' => 'product#show', :id => /.*/
-  get 'pesquisa' => 'search#index'
   get 'client' => 'profiles#show'
+<<<<<<< HEAD
   get 'cart/index', :as => :carrinho
+=======
+
+  get 'carrinho' => 'cart#index'
+  post 'carrinho' => 'cart#send_cart_primavera'
+
+  get 'carrinho/adicionar/:id_produto/:quantity' => 'cart_product#add', :id_produto => /.*/
+>>>>>>> 44533ecea209aaf0daccb5ddda5b7394adcfa68a
   post 'carrinho/adicionar' => 'cart#add_to_cart'
   get 'carrinho/limpar' => 'cart#clear_cart'
   post 'carrinho' => 'cart#send_cart_primavera'
@@ -22,65 +50,14 @@ SinfWebstore::Application.routes.draw do
   get 'encomenda/:id' => 'encomenda#show', :id => /.*/
   get 'encomendas/user/:id' => 'encomenda#getUser'
 
-  delete 'product_description/:id' => 'product_description#destroy'
-  put 'product_description' => 'product_description#create'
+  get 'admins' => 'admin#index'
 
-  post 'reviews' => 'review#create'
-  delete 'review/:id' => 'review#destroy'
+  get 'encomenda/:id' => 'encomenda#show', :id => /.*/
 
+  get 'pesquisa' => 'search#index'
 
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
+  get 'encomendas/user/:id' => 'encomenda#getUser'
 
-  # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  devise_for :users, :controllers => { registrations: 'registration' }
 
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
-
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
-
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
-
-  # Example resource route with concerns:
-  #   concern :toggleable do
-  #     post 'toggle'
-  #   end
-  #   resources :posts, concerns: :toggleable
-  #   resources :photos, concerns: :toggleable
-
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
 end

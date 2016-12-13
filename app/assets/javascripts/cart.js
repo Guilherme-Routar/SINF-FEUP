@@ -15,6 +15,7 @@ $(document).ready(function(){
         carrinho.Produtos_id = lista;
 
         $.ajax({
+            dataType: 'json',
             type: "POST",
             url: 'http://localhost:49822/api/carrinho',
             crossDomain: true,
@@ -29,6 +30,7 @@ $(document).ready(function(){
                 if (msg) {
                     console.log(msg);
                     var artigos_temp = $.parseJSON(msg);
+
                     for(var i in artigos_temp){
                         artigos_carrinho[artigos_temp[i].CodArtigo] = artigos_temp[i];
                         var parent_selector = "#artigo-"+artigos_temp[i].CodArtigo;

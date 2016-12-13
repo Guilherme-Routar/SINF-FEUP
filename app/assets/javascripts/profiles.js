@@ -8,6 +8,7 @@ $(document).ready(function () {
 
 function getProdutosCliente(id_cliente){
 	var url_prods_cliente = base_url_primavera + '/clientes/'+ id_cliente + '/encomendas';
+	console.log("ID CLIENTE  : " + id_cliente);
 
     var re = /-?\d+/;
 

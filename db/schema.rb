@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161210035559) do
+ActiveRecord::Schema.define(version: 20161212191738) do
 
   create_table "books", force: true do |t|
     t.string   "name"
@@ -35,6 +35,14 @@ ActiveRecord::Schema.define(version: 20161210035559) do
 
   add_index "books", ["slug"], name: "index_books_on_slug", unique: true
 
+  create_table "cart_products", force: true do |t|
+    t.string   "id_produto"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "user_id"
+    t.integer  "quantity"
+  end
+
   create_table "friendly_id_slugs", force: true do |t|
     t.string   "slug",                      null: false
     t.integer  "sluggable_id",              null: false
@@ -51,8 +59,6 @@ ActiveRecord::Schema.define(version: 20161210035559) do
   create_table "imagems", force: true do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string   "image"
-    t.string   "idProduto"
   end
 
   create_table "product_descriptions", force: true do |t|
@@ -71,7 +77,31 @@ ActiveRecord::Schema.define(version: 20161210035559) do
     t.integer  "user_id"
   end
 
-# Could not dump table "users" because of following NoMethodError
-#   undefined method `[]' for nil:NilClass
+  add_index "reviews", ["user_id"], name: "index_reviews_on_user_id"
+
+  create_table "users", force: true do |t|
+    t.string   "email",                  default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,     null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.string   "nome"
+    t.integer  "nif"
+    t.string   "morada"
+    t.string   "entidade"
+    t.boolean  "admin",                  default: false
+    t.string   "codigo"
+    t.string   "localidade"
+  end
+
+  add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
 end

@@ -15,6 +15,15 @@ namespace FirstREST
                 defaults: new { id = RouteParameter.Optional }
             );
 
+<<<<<<< HEAD
+=======
+            config.Routes.MapHttpRoute(
+                name: "DefaultApiAction",
+                routeTemplate: "api/{controller}/{action}/{id}/{categoria}",
+                defaults: new { categoria = RouteParameter.Optional }
+            );
+
+>>>>>>> 44533ecea209aaf0daccb5ddda5b7394adcfa68a
             //encomendas
             config.Routes.MapHttpRoute(
                 name: "GetEncomendasDoCliente",
@@ -31,7 +40,11 @@ namespace FirstREST
             //doc venda
             config.Routes.MapHttpRoute(
                 name: "GetEncomendasMes",
+<<<<<<< HEAD
                 routeTemplate: "api/docvenda/{ano}/{mes}",
+=======
+                routeTemplate: "api/docvenda/{mes}/{ano}",
+>>>>>>> 44533ecea209aaf0daccb5ddda5b7394adcfa68a
                 defaults: new { controller = "DocVenda", action = "GetEncomendasMes" }
             );
 
@@ -40,6 +53,13 @@ namespace FirstREST
                 name: "GetSubCategoriaDeCategoria",
                 routeTemplate: "api/categorias/{id}/subcategorias",
                 defaults: new { controller = "Categorias", action = "Subcategorias" }
+            );
+
+            // carrinho
+            config.Routes.MapHttpRoute(
+                name: "GetDetalheArtigosCarrinho",
+                routeTemplate: "api/carrinho",
+                defaults: new { controller = "Carrinho", action = "GetDetalheArtigosCarrinho" }
             );
 
             config.Routes.MapHttpRoute(
