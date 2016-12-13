@@ -1,4 +1,4 @@
-var base_url_primavera = 'http://localhost:49526/api';
+var base_url_primavera = 'http://localhost:49822/api';
 //var url_produto = 'http://localhost:3000/product/'
 var artigos = [];
 

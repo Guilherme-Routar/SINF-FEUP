@@ -15,6 +15,26 @@ namespace FirstREST
                 defaults: new { id = RouteParameter.Optional }
             );
 
+            //encomendas
+            config.Routes.MapHttpRoute(
+                name: "GetEncomendasDoCliente",
+                routeTemplate: "api/clientes/{id}/{encomendas}",
+                defaults: new { controller = "Clientes" }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "GetEncomendaDoCliente",
+                routeTemplate: "api/clientes/{idCliente}/encomenda/{idEncomenda}",
+                defaults: new { controller = "Clientes", action = "GetEncomenda" }
+            );
+
+            //doc venda
+            config.Routes.MapHttpRoute(
+                name: "GetEncomendasMes",
+                routeTemplate: "api/docvenda/{ano}/{mes}",
+                defaults: new { controller = "DocVenda", action = "GetEncomendasMes" }
+            );
+
             //categoria
             config.Routes.MapHttpRoute(
                 name: "GetSubCategoriaDeCategoria",

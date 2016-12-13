@@ -16,7 +16,7 @@ $(document).ready(function(){
 
         $.ajax({
             type: "POST",
-            url: 'http://localhost:49526/api/carrinho',
+            url: 'http://localhost:49822/api/carrinho',
             crossDomain: true,
             data: carrinho,
             error: function (xhr, status, error) {

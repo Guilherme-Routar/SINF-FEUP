@@ -220,6 +220,7 @@
     <Compile Include="Controllers\LivrosController.cs" />
     <Compile Include="Controllers\LivrosRelacionadosController.cs" />
     <Compile Include="Controllers\PesquisaController.cs" />
+    <Compile Include="Controllers\TopAutoresController.cs" />
     <Compile Include="Controllers\TopLivrosController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
