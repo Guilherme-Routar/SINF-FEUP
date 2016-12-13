@@ -58,7 +58,7 @@ function getProdutosCliente(id_cliente){
                     var idParentDiv = idEncomenda.slice(1, -1);
 
                     var this_element = $(this);
-                    var url_prods_encomenda = base_url_primavera + '/clientes/'+ id_cliente + '/encomenda/' + idEncomenda;
+                    var url_prods_encomenda = base_url_primavera + '/Clientes?idCliente='+ id_cliente + '&idEncomenda=' + idEncomenda;
 
                     $.ajax({
                         url: url_prods_encomenda,
