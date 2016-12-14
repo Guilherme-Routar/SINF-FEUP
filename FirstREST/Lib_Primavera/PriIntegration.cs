@@ -271,7 +271,7 @@ namespace FirstREST.Lib_Primavera
 
 
 
-        public static List<Model.Artigo> ListaTopLivros()
+        public static List<Model.Artigo> ListaDescontoLivros()
         {
 
             StdBELista objList;
@@ -282,6 +282,48 @@ namespace FirstREST.Lib_Primavera
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
 
+               // string query = "SELECT a.Artigo, a.Descricao, a.Marca, a.Modelo, a.Desconto, a.Peso, a.UnidadeBase, a.Familia, a.SubFamilia, am.PVP1, am.Moeda, a.Iva, i.Taxa FROM Artigo as a INNER JOIN ( SELECT TOP 1000 at.Artigo as artId, COUNT(at.Descricao) as artDes FROM Artigo as at INNER JOIN LinhasDoc as ld ON ld.Artigo = at.Artigo GROUP BY at.Artigo ) as ij ON ij.artId = a.Artigo INNER JOIN Marcas as m ON m.Marca = a.Marca INNER JOIN ArtigoMoeda as am ON a.Artigo = am.Artigo INNER JOIN Iva as i ON a.Iva = i.Iva WHERE a.Familia = 'LIV' ORDER BY a.Desconto DESC";
+                string query = "SELECT TOP 6 a.*," +
+                        " m.*, i.Taxa " +
+                        " FROM Artigo AS a JOIN ArtigoMoeda AS m ON a.Artigo = m.Artigo JOIN Iva as i ON a.Iva = i.Iva WHERE a.Familia = 'LIV' ORDER BY a.Desconto DESC";
+
+                objList = PriEngine.Engine.Consulta(query);
+
+                while (!objList.NoFim())
+                {
+                    art = new Model.Artigo();
+                    art.CodArtigo = objList.Valor("Artigo");
+                    art.DescArtigo = objList.Valor("Descricao");
+                    art.PVP = objList.Valor("PVP1");
+                    art.Desconto = objList.Valor("Desconto");
+                    listArts.Add(art);
+                    objList.Seguinte();
+                }
+
+                return listArts;
+
+            }
+            else
+            {
+                return null;
+
+            }
+
+        }
+
+
+
+        public static List<Model.Artigo> ListaTopLivros()
+        {
+
+            StdBELista objList;
+
+            Model.Artigo art = new Model.Artigo();
+            List<Model.Artigo> listArts = new List<Model.Artigo>();
+
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+                /*
                 objList = PriEngine.Engine.Consulta("SELECT TOP 20 a.Artigo, a.Descricao, m.PVP1, m.Moeda, a.Iva, i.Taxa " +
                                                     "FROM Artigo as a JOIN " +
                                                         "(SELECT Artigo, Count(*) as icount " +
@@ -290,6 +332,18 @@ namespace FirstREST.Lib_Primavera
                                                     "ON a.Artigo = v.Artigo JOIN ArtigoMoeda As m ON a.Artigo = m.Artigo JOIN Iva as i ON a.Iva = i.Iva " +
                                                     "WHERE a.Familia = 'BEBIDAS' AND a.TipoArtigo = 3 " +
                                                     "ORDER BY icount DESC");
+                */
+                string query = "SELECT TOP 3 a.Artigo, a.Descricao, a.Marca, a.Modelo, a.Peso, a.UnidadeBase, m.PVP1, m.moeda, a.Familia, a.SubFamilia, v.itemcount, a.Iva, i.Taxa " +
+                                        " FROM Artigo as a JOIN (SELECT Artigo, COUNT(*) as itemcount" +
+                                                                " FROM  LinhasDoc JOIN CabecDoc ON" +
+                                                                " LinhasDoc.IdCabecDoc = CabecDoc.id" +
+                                                                " WHERE CabecDoc.Data > dateadd(year, -1, getdate())" +
+                                                                " GROUP BY Artigo) as v" +
+                                        " ON a.Artigo = v.Artigo JOIN ArtigoMoeda AS m ON a.Artigo = m.Artigo JOIN Iva as i ON a.Iva = i.Iva" +
+                                        " WHERE a.Familia = 'LIV'" +
+                                        " ORDER BY itemcount DESC";
+
+                objList = PriEngine.Engine.Consulta(query);
 
                 while (!objList.NoFim())
                 {
@@ -639,10 +693,10 @@ namespace FirstREST.Lib_Primavera
 
             if(PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
-                string query = "SELECT a.Artigo, a.Descricao, a.Familia, a.SubFamilia, m.PVP1, m.PVP2, a.Marca, a.Modelo, a.Peso,a.UnidadeBase, m.Moeda, f.Descricao as familiaDesc, i.Taxa " +
-                    "FROM Artigo as a, ArtigoMoeda as m, Familias as f, Iva as i " +
+                string query = "SELECT a.Desconto, mc.Descricao as MD, a.Artigo, a.Descricao, a.Familia, a.SubFamilia, m.PVP1, m.PVP2, a.Marca, a.Modelo, a.Peso,a.UnidadeBase, m.Moeda, f.Descricao as familiaDesc, i.Taxa " +
+                    "FROM Artigo as a, ArtigoMoeda as m, Marcas as mc, SubFamilias as f, Iva as i " +
                     "where a.Artigo = m.Artigo AND a.Artigo='" + codArtigo + "' " +
-                    "AND a.Familia = f.Familia AND i.Iva = a.Iva";
+                    "AND a.Familia = f.Familia AND i.Iva = a.Iva AND a.Marca = mc.Marca";
 
                 objListLin = PriEngine.Engine.Consulta(query);
 
@@ -652,12 +706,15 @@ namespace FirstREST.Lib_Primavera
                     artigo.CodArtigo = objListLin.Valor("Artigo");
                     artigo.DescArtigo = objListLin.Valor("Descricao");
                     artigo.Marca = objListLin.Valor("Marca");
+                    artigo.MarcaDesc = objListLin.Valor("MD");
                     artigo.PVP = objListLin.Valor("PVP1");
                     artigo.PVP2 = objListLin.Valor("PVP2");
-                    artigo.Categoria = objListLin.Valor("Familia");
+                    artigo.Categoria = objListLin.Valor("SubFamilia");
                     artigo.Estado = objListLin.Valor("familiaDesc");
                     artigo.Moeda = objListLin.Valor("Moeda");
                     artigo.IVA = objListLin.Valor("Taxa");
+                    artigo.Desconto = objListLin.Valor("Desconto");
+                    //artigo.Imagem = objListLin.Valor("CDU_Imagem_1");
 
                     /*if (artigo.Categoria != "")
                     {
@@ -706,6 +763,7 @@ namespace FirstREST.Lib_Primavera
                     art = new Model.Artigo();
                     art.CodArtigo = objList.Valor("artigo");
                     art.DescArtigo = objList.Valor("descricao");
+                    art.Imagem = objList.Valor("CDU_Imagem_1");
 
                     listArts.Add(art);
                     objList.Seguinte();
@@ -747,7 +805,8 @@ namespace FirstREST.Lib_Primavera
                         Marca = objList.Valor("Marca"),
                         Moeda = objList.Valor("Moeda"),
                         PVP = objList.Valor("PVP1"),
-                        IVA = objList.Valor("Taxa")
+                        IVA = objList.Valor("Taxa"),
+                        Imagem = objList.Valor("CDU_Imagem_1")
                     });
 
                     objList.Seguinte();
@@ -767,10 +826,7 @@ namespace FirstREST.Lib_Primavera
             {
 
                 //objList = PriEngine.Engine.Comercial.Clientes.LstClientes();
-                string query = "SELECT a.Artigo, a.Descricao, a.Marca, a.Modelo, a.Peso, a.UnidadeBase, a.Familia, a.SubFamilia, a.Iva, i.Taxa, " +
-                        " m.PVP1, m.Moeda" +
-                        " FROM Artigo AS a JOIN ArtigoMoeda AS m ON a.Artigo = m.Artigo JOIN Iva as i ON a.Iva = i.Iva WHERE a.Artigo LIKE '%" + termoProcura + "%' OR " +
-                        " a.Descricao LIKE '%" + termoProcura + "%'";
+                string query = "SELECT a.Artigo, a.Descricao, a.Marca, a.Modelo, a.Peso, a.UnidadeBase, a.Familia, a.SubFamilia, am.PVP1, am.Moeda, a.Iva, i.Taxa FROM Artigo as a INNER JOIN ( SELECT TOP 1000 at.Artigo as artId, COUNT(at.Descricao) as artDes FROM Artigo as at INNER JOIN LinhasDoc as ld ON ld.Artigo = at.Artigo GROUP BY at.Artigo ) as ij ON ij.artId = a.Artigo INNER JOIN Marcas as m ON m.Marca = a.Marca INNER JOIN ArtigoMoeda as am ON a.Artigo = am.Artigo INNER JOIN Iva as i ON a.Iva = i.Iva WHERE ( a.Descricao LIKE '%" + termoProcura + "%' OR m.Descricao LIKE '%" + termoProcura + "%' ) AND a.Familia = 'LIV' ORDER BY ij.artDes DESC";
                 objList = PriEngine.Engine.Consulta(query);
 
 

@@ -1,55 +1,88 @@
 <%= render 'common/header' %>
-
-
+<%= stylesheet_link_tag 'this', media: 'all' %>
 </head>
 <body>
 <%= render 'common/navbar' %>
 
-
 <!-- Page Content -->
-<br>
-<br>
-<br>
-<div class="container">
-  <div class="row">
-    <div class="col-xs-9">
-      <!-- Title -->
-      <div class="well well-sm">
-        <strong>Artigos mais vendidos</strong>
-        <div class="btn-group">
-          <a href="#" id="list" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list"></span>Lista</a>
-          <a href="#" id="grid" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th"></span>Grelha</a>
-        </div>
+
+<!-- COvERFLOW -->
+<div class="bs-example">
+  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Carousel indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+    <!-- Wrapper for carousel items -->
+    <div class="carousel-inner">
+      <div class="item active">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/29/Dscn7471_sunset-sundog_crop_800x300.jpg" alt="First Slide">
       </div>
-
-      <div id="artigos-container" class="row list-group"></div>
-
-      <div class="well well-sm">
-        <strong>Categorias</strong>
-        <div class="btn-group">
-          <a href="#" id="list" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list"></span>Lista</a>
-          <a href="#" id="grid" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th"></span>Grelha</a>
-        </div>
+      <div class="item">
+        <img src="https://d30y9cdsu7xlg0.cloudfront.net/png/1009-200.png" alt="Second Slide">
       </div>
-
-      <div id="categorias-container" class="row list-group"></div>
-
-      <div class="well well-sm">
-        <strong>Autores mais populares</strong>
-        <div class="btn-group">
-          <a href="#" id="list" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list"></span>Lista</a>
-          <a href="#" id="grid" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th"></span>Grelha</a>
-        </div>
+      <div class="item">
+        <img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ8PmWhAf9Ya_IeLHUmbPub8sJXMlSv7dpIOsoUtkK-5ckvlFdOxg" alt="Third Slide">
       </div>
-
-
-      <div id="topautores-container" class="row list-group"></div>
-      <hr>
-
-    </div><!-- col main -->
-  </div> <!-- row -->
+    </div>
+    <!-- Carousel controls -->
+    <a class="carousel-control left" href="#myCarousel" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left"></span>
+    </a>
+    <a class="carousel-control right" href="#myCarousel" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+  </div>
 </div>
-<!-- /.container -->
+<!-- END OF COvERFLOW -->
 
-<%= render 'common/footer' %>
+<br>
+<br>
+<br>
+
+<div class="container">
+
+  <div class="row-fluid">
+    <div class="col-xs-2">
+      <div class="table-responsive">
+        <table class="table">
+          <thead><tr><th><h3 align="center"><strong>TOP LIVROS</strong></h3></th></tr><thead>
+          <tbody><tr><td><div id="artigos-container" class="row list-group"></div></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="col-xs-3">
+      <div class="table-responsive">
+        <table class="table">
+          <thead><tr><th><h3 align="center"><strong>CATEGORIAS</strong></h3></th></tr><thead>
+          <tbody><tr><td><div id="categorias-container" class="row list-group"></div></td></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="col-xs-3">
+      <div class="table-responsive">
+        <table class="table">
+          <thead><tr><th><h3 align="center"><strong>TOP AUTORES</strong></h3></th></tr><thead>
+          <tbody><tr><td><div id="topautores-container" class="row list-group"></div></td></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="col-xs-4">
+      <div class="table-responsive">
+        <table class="table">
+          <thead><tr><th><h3 align="center"><strong>BEST DEALS</strong></h3></th></tr><thead>
+          <tbody><tr><td><div id="bestdeals-container" class="row list-group"></div></td></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+  <!-- /.container -->
+
+  <%= render 'common/footer' %>
 <%= javascript_include_tag "home" %>

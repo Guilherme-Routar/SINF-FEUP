@@ -79,6 +79,18 @@ namespace FirstREST.Lib_Primavera.Model
             set;
         }
 
+        public string Imagem
+        {
+            get;
+            set;
+        }
+
+        public double Desconto
+        {
+            get;
+            set;
+        }
+
     }
 
 }
