@@ -61,6 +61,23 @@ namespace FirstREST.Controllers
             }
         }
 
+        [System.Web.Http.HttpPost]
+        public HttpResponseMessage Autor(string id)
+        {
+            List<Artigo> produtosAutor = Lib_Primavera.PriIntegration.GetArtigosAutor(id);
+            if (produtosAutor == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.Forbidden);
+            }
+            else
+            {
+                HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", LocalhostIP.localhostIP());
+                var json = new JavaScriptSerializer().Serialize(produtosAutor);
+                var response = Request.CreateResponse(HttpStatusCode.OK, json);
+                return response;
+            }
+        }
+
     }
 }
 

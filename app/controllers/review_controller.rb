@@ -1,14 +1,14 @@
 class ReviewController < ApplicationController
 	before_action :authenticate_user!
 	def create
- 		@review = Review.new(review_params)
-        @review.user_id = current_user.id
+		@review = Review.new(review_params)
+		@review.user_id = current_user.id
 
-        if @review.save
-            render :json => @review
-        else
-            render :json => @review.errors
-        end
+		if @review.save
+			render :json => @review
+		else
+			render :json => @review.errors
+		end
 	end
 
 	def destroy

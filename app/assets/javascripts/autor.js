@@ -11,43 +11,40 @@ $(document).ready(function () {
 
     $('#artigos-container').html(botao_load);
 
-	var id_categoria = $("#titulo-categoria").attr('data-id-categoria');
-    console.log("ID CATEGORIA : " + id_categoria);
-	var url_categoria = base_url_primavera + '/categorias/'+id_categoria;
+    var id_autor = $("#titulo-autor").attr('data-id-autor');
+    console.log("ID CATEGORIA : " + id_autor);
+    var url_autor = base_url_primavera + '/Autor/'+id_autor;
 
 
     $.ajax({
         type: 'GET',
-        url: url_categoria,
+        url: url_autor,
         error: function (err) {
             console.log("error fetching category");
-            $("#titulo-categoria").html('erro');
+            $("#titulo-autor").html('erro');
         },
         dataType: 'json',
         success: function (data) {
-            console.log(data);
-            var categoria_temp = data;
-            var desc_categoria = categoria_temp.DescCategoria;
-            console.log("DESC ARTIGO : " + desc_categoria);
-            console.log(categoria_temp);
-            $("#titulo-categoria").html(desc_categoria);
-            getProdutosCategoria(id_categoria);
+            console.log("AQUI");
+            var autor_temp = data;
+            console.log(autor_temp);
+            var desc_autor = autor_temp.DescAutor;
+            console.log("DESC ARTIGO : " + desc_autor);
+            console.log(autor_temp);
+            $("#titulo-autor").html(desc_autor);
+            getProdutosAutor(id_autor);
         }
     })
 });
+function getProdutosAutor(id_autor){
+    var url_prods_autor = null;
 
-
-function getProdutosCategoria(id_cat){
-    var url_prods_categoria = null;
-    //if(is_subcategoria)
-        //url_prods_categoria = base_url_primavera + '/artigos/categoria/'+id_cat+'/subcategoria/'+id_subcat;
-        //else
-    url_prods_categoria = base_url_primavera + '/artigos/categoria/'+id_cat;
+    url_prods_autor = base_url_primavera + '/artigos/autor/'+id_autor;
 
     $.ajax({
-        url: url_prods_categoria,
+        url: url_prods_autor,
         error: function(err) {
-            console.log("error fetching products of categorie");
+            console.log("error fetching products of authors");
             console.log(err);
         },
         dataType: 'json',
@@ -56,7 +53,7 @@ function getProdutosCategoria(id_cat){
             var artigos_temp = $.parseJSON(data);
             $('#artigos-container').html('');
             if(artigos_temp.length == 0)
-                $('#artigos-container').append('<i>Não existem artigos nesta categoria...</i>');
+                $('#artigos-container').append('<i>Não existem artigos deste autor...</i>');
             else
                 for(var  i in artigos_temp){
                     artigos[artigos_temp[i].CodArtigo] = artigos_temp[i];

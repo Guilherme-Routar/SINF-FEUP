@@ -13,6 +13,6 @@ class ProductController < ApplicationController
 		@reviews = Review.where(produto_id: @product_id).paginate(:page => params[:page], :per_page => 5).order('id DESC')
 		@avg = @reviews.average(:rating)
 
-		
+
 	end
 end

@@ -68,6 +68,12 @@ namespace FirstREST
             );
 
             config.Routes.MapHttpRoute(
+                name: "GetAutor",
+                routeTemplate: "api/autor/{id}/",
+                defaults: new { controller = "Autor", action = "Get" }
+            );
+
+            config.Routes.MapHttpRoute(
                 name: "GetArtigosSubCategoria",
                 routeTemplate: "api/artigos/categoria/{id}/subcategoria/{id2}",
                 defaults: new { controller = "Artigos", action = "Subcategoria" }

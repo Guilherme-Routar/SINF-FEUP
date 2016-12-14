@@ -87,6 +87,40 @@ namespace FirstREST.Lib_Primavera
 
         }
 
+        public static List<Model.Autor> ListaTopAutores()
+        {
+
+            StdBELista objList;
+
+            Model.Autor cat = new Model.Autor();
+            List<Model.Autor> listCats = new List<Model.Autor>();
+
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+
+                objList = PriEngine.Engine.Consulta("SELECT TOP 3 Marca, Descricao FROM Marcas as m2 INNER JOIN ( SELECT marc as mc, COUNT(descr) as cnt FROM ( SELECT	a.Artigo as art, m.Marca as marc, m.Descricao as descr FROM Marcas as m INNER JOIN Artigo as a ON m.Marca = a.Marca INNER JOIN LinhasDoc as lc ON lc.Artigo = a.Artigo WHERE a.Familia='LIV') as sel GROUP BY marc ) as ft ON ft.mc = m2.Marca");
+
+                while (!objList.NoFim())
+                {
+                    cat = new Model.Autor();
+                    cat.CodAutor = objList.Valor("Marca");
+                    cat.DescAutor = objList.Valor("Descricao");
+
+                    listCats.Add(cat);
+                    objList.Seguinte();
+                }
+
+                return listCats;
+
+            }
+            else
+            {
+                return null;
+
+            }
+
+        }
+
         #endregion Autor
 
 
@@ -102,7 +136,7 @@ namespace FirstREST.Lib_Primavera
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
 
-                objList = PriEngine.Engine.Consulta("SELECT Familia, Descricao FROM Familias WHERE Familia ='" + codCategoria + "'");
+                objList = PriEngine.Engine.Consulta("SELECT SubFamilia, Descricao FROM SubFamilias WHERE Familia ='LIV' AND SubFamilia = '" + codCategoria + "'");
 
                 if (objList.NoFim())
                 {
@@ -111,7 +145,7 @@ namespace FirstREST.Lib_Primavera
                 else
                 {
                     Model.Categoria cat = new Model.Categoria{
-                        CodCategoria = objList.Valor("Familia"),
+                        CodCategoria = objList.Valor("SubFamilia"),
                         DescCategoria = objList.Valor("Descricao")
                     };
 
@@ -138,12 +172,12 @@ namespace FirstREST.Lib_Primavera
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
 
-                objList = PriEngine.Engine.Consulta("SELECT Familia, Descricao FROM Familias");
+                objList = PriEngine.Engine.Consulta("SELECT SubFamilia, Descricao FROM SubFamilias WHERE Familia = 'LIV'");
 
                 while (!objList.NoFim())
                 {
                     cat = new Model.Categoria();
-                    cat.CodCategoria = objList.Valor("Familia");
+                    cat.CodCategoria = objList.Valor("SubFamilia");
                     cat.DescCategoria = objList.Valor("Descricao");
                     cat.numExemplaresCategoria = 1;
 
@@ -166,6 +200,40 @@ namespace FirstREST.Lib_Primavera
 
 
         #region Livro
+
+        public static List<Model.Artigo> GetArtigosAutor(string marca)
+        {
+            StdBELista objList;
+            List<Model.Artigo> listArtigos = new List<Model.Artigo>();
+
+
+            if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
+            {
+
+                objList = PriEngine.Engine.Consulta("SELECT a.*," +
+                        " m.*, i.Taxa " +
+                        " FROM Artigo AS a JOIN ArtigoMoeda AS m ON a.Artigo = m.Artigo JOIN Iva as i ON a.Iva = i.Iva WHERE a.Marca = '" + marca + "'");
+
+                while (!objList.NoFim())
+                {
+                    listArtigos.Add(new Model.Artigo
+                    {
+                        CodArtigo = objList.Valor("Artigo"),
+                        DescArtigo = objList.Valor("Descricao"),
+                        Categoria = objList.Valor("Familia"),
+                        Marca = objList.Valor("Marca"),
+                        Moeda = objList.Valor("Moeda"),
+                        PVP = objList.Valor("PVP1"),
+                        IVA = objList.Valor("Taxa")
+                    });
+
+                    objList.Seguinte();
+                }
+                return listArtigos;
+            }
+            else
+                return null;
+        }
 
         public static List<Model.Artigo> ListaLivros()
         {
@@ -629,7 +697,9 @@ namespace FirstREST.Lib_Primavera
             if (PriEngine.InitializeCompany(FirstREST.Properties.Settings.Default.Company.Trim(), FirstREST.Properties.Settings.Default.User.Trim(), FirstREST.Properties.Settings.Default.Password.Trim()) == true)
             {
 
-                objList = PriEngine.Engine.Comercial.Artigos.LstArtigos();
+                objList = PriEngine.Engine.Consulta("SELECT a.*," +
+                        " m.*, i.Taxa " +
+                        " FROM Artigo AS a JOIN ArtigoMoeda AS m ON a.Artigo = m.Artigo JOIN Iva as i ON a.Iva = i.Iva WHERE a.Familia = 'LIV' ");
 
                 while (!objList.NoFim())
                 {
@@ -665,7 +735,7 @@ namespace FirstREST.Lib_Primavera
 
                 objList = PriEngine.Engine.Consulta("SELECT a.*," +
                         " m.*, i.Taxa " +
-                        " FROM Artigo AS a JOIN ArtigoMoeda AS m ON a.Artigo = m.Artigo JOIN Iva as i ON a.Iva = i.Iva WHERE a.Familia = '" + cat + "'");
+                        " FROM Artigo AS a JOIN ArtigoMoeda AS m ON a.Artigo = m.Artigo JOIN Iva as i ON a.Iva = i.Iva WHERE a.SubFamilia = '" + cat + "'");
 
                 while (!objList.NoFim())
                 {

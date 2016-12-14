@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   delete 'review/:id' => 'review#destroy'
 
   get 'categoria/:id' => 'categoria#index', :id => /.*/
+  get 'autor/:id' => 'autor#index', :id => /.*/
 
   get 'product/:id' => 'product#show', :id => /.*/
   get 'client' => 'profiles#show'
